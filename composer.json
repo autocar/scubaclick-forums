@@ -1,0 +1,29 @@
+{
+    "name": "scubaclick/forums",
+    "description": "Forums for Laravel 4",
+    "keywords": ["forums", "laravel", "topics"],
+    "homepage": "https://github.com/ScubaClick/scubaclick-forums",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Boris Glumpler",
+            "email": "tech@scubaclick.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0",
+        "illuminate/support": "4.0.*",
+        "illuminate/database": "4.0.*",
+        "mews/purifier": "dev-master",
+        "scubaclick/feeder": "dev-develop"
+    },
+    "autoload": {
+        "classmap": [
+            "src/migrations"
+        ],
+        "psr-0": {
+            "ScubaClick\\Forums": "src/"
+        }
+    },
+    "minimum-stability": "dev"
+}
