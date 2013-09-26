@@ -49,6 +49,6 @@ class Label extends Model
      */
     public function topics()
     {
-        return $this->belongsToMany('\\ScubaClick\\Models\\Forum\\Topics');
+        return $this->belongsToMany('\\ScubaClick\\Forums\\Models\\Topic');
     }
 }

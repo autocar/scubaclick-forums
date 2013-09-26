@@ -1,5 +1,7 @@
 <?php namespace ScubaClick\Forums\Models;
 
+use Config;
+
 class Topic extends Model
 {
     /**
@@ -23,6 +25,8 @@ class Topic extends Model
      */
     protected $fillable = [
     	'status',
+        'priority',
+        'type',
     	'title',
     	'content',
     	'slug',
@@ -36,6 +40,8 @@ class Topic extends Model
 	public static $rules = [
         'user_id'  => '',
         'forum_id' => '',
+        'priority' => '',
+        'type'     => '',
         'status'   => '',
         'title'    => '',
         'content'  => '',
@@ -62,7 +68,7 @@ class Topic extends Model
      */
     public function forum()
     {
-        return $this->belongsTo('\\ScubaClick\\Models\\Forum\\Forum');
+        return $this->belongsTo('\\ScubaClick\\Forums\\Models\\Forum');
     }
 
     /**
@@ -72,7 +78,7 @@ class Topic extends Model
      */
     public function replies()
     {
-        return $this->hasMany('\\ScubaClick\\Models\\Forum\\Reply');
+        return $this->hasMany('\\ScubaClick\\Forums\\Models\\Reply');
     }
 
     /**
@@ -82,7 +88,7 @@ class Topic extends Model
      */
     public function labels()
     {
-        return $this->belongsToMany('\\ScubaClick\\Models\\Forum\\Label');
+        return $this->belongsToMany('\\ScubaClick\\Forums\\Models\\Label');
     }
 
     /**
@@ -90,8 +96,8 @@ class Topic extends Model
      *
      * @return object
      */
-    public function creator()
+    public function user()
     {
-        return $this->belongsTo('\\ScubaClick\\Models\\Master\\User', 'user_id');
+        return $this->belongsTo(Config::get('auth.model'));
     }
 }

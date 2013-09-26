@@ -1,5 +1,7 @@
 <?php namespace ScubaClick\Forums\Models;
 
+use Config;
+
 class Forum extends Model
 {
     /**
@@ -59,7 +61,7 @@ class Forum extends Model
      */
     public function topics()
     {
-        return $this->hasMany('\\ScubaClick\\Models\\Forum\\Topic');
+        return $this->hasMany('\\ScubaClick\\Forums\\Models\\Topic');
     }
 
     /**
@@ -67,8 +69,8 @@ class Forum extends Model
      *
      * @return object
      */
-    public function creator()
+    public function user()
     {
-        return $this->belongsTo('\\ScubaClick\\Models\\Master\\User', 'user_id');
+        return $this->belongsTo(Config::get('auth.model'));
     }
 }
