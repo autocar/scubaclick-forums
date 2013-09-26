@@ -26,7 +26,6 @@ class Forum extends Model
     protected $fillable = [
     	'title',
     	'content',
-    	'slug',
     ];
 
     /**
@@ -35,10 +34,10 @@ class Forum extends Model
      * @var MessageBag
      */
 	public static $rules = [
-        'user_id' => '',
-        'title'   => '',
-        'content' => '',
-        'slug'    => '',
+        'user_id' => 'required|exists:users,id',
+        'title'   => 'required|min:3',
+        'content' => 'required|min:8',
+        'slug'    => 'required|min:3',
 	];
 
    /**

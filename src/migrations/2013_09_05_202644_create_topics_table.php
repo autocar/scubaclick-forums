@@ -44,6 +44,7 @@ class CreateTopicsTable extends Migration {
 			$table->string('title', 255);
 			$table->text('content');
 			$table->string('slug', 255);
+			$table->string('ip', 255);
 			$table->timestamps();
 			$table->softDeletes();
 
@@ -66,5 +67,4 @@ class CreateTopicsTable extends Migration {
 	{
 		Schema::drop('topics');
 	}
-
 }

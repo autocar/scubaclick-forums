@@ -29,7 +29,6 @@ class Topic extends Model
         'type',
     	'title',
     	'content',
-    	'slug',
     ];
 
     /**
@@ -38,14 +37,15 @@ class Topic extends Model
      * @var MessageBag
      */
 	public static $rules = [
-        'user_id'  => '',
-        'forum_id' => '',
-        'priority' => '',
-        'type'     => '',
-        'status'   => '',
-        'title'    => '',
-        'content'  => '',
-        'slug'     => '',
+        'user_id'  => 'required|exists:users,id',
+        'forum_id' => 'required|exists:forums,id',
+        'priority' => 'required|in:critial,high,normal,low',
+        'type'     => 'required|in:bug,enhancement,feature',
+        'status'   => 'required|in:new,accepted,progressing,completed,invalid',
+        'title'    => 'required|min:3',
+        'content'  => 'required|min:8',
+        'slug'     => 'required|min:3',
+        'ip'       => 'required|ip',
 	];
 
    /**

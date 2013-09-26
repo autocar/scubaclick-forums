@@ -16,7 +16,6 @@ class Label extends Model
      */
     protected $fillable = [
         'title',
-        'slug',
     ];
 
     /**
@@ -25,8 +24,8 @@ class Label extends Model
      * @var MessageBag
      */
 	public static $rules = [
-        'title' => '',
-        'slug'  => '',
+        'title' => 'required|min:3',
+        'slug'  => 'required|min:3',
 	];
 
    /**

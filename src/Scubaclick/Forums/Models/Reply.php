@@ -33,9 +33,10 @@ class Reply extends Model
      * @var MessageBag
      */
 	public static $rules = [
-        'user_id'  => '',
-        'topic_id' => '',
-        'content'  => '',
+        'user_id'  => 'required|exists:users,id',
+        'topic_id' => 'required|exists:topics,id',
+        'content'  => 'required|min:8',
+        'ip'       => 'required|ip',
 	];
 
    /**

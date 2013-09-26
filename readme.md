@@ -34,7 +34,7 @@ php artisan config:publish scubaclick/forums
 Notes
 -----
 
-Please note that ScubaClick Forums does not provide any templates or controllers, only the models, migrations and repositories. You will have to implement these yourself.
+Please note that ScubaClick Forums does not provide any controllers, just the models, sub-views, migrations and repositories. You will have to implement all controllers yourself.
 
 License
 -------

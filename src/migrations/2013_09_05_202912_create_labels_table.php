@@ -35,5 +35,4 @@ class CreateLabelsTable extends Migration {
 		Schema::drop('labels');
 		Schema::drop('label_topic');
 	}
-
 }

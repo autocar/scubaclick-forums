@@ -17,7 +17,7 @@ return array(
     | Holds the foreign user id table
     |--------------------------------------------------------------------------
     | Can be set to just a string, like `users`. The anonymous function below
-    | allows the use of setting the foreign key on a different database, e.g.
+    | allows setting the foreign key on a different database, e.g.
     | on a multi-tenant setup
     */
 

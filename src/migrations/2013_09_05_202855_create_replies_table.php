@@ -24,6 +24,7 @@ class CreateRepliesTable extends Migration {
 			$table->integer('user_id')->unsigned();
 			$table->integer('topic_id')->unsigned();
 			$table->text('content');
+			$table->string('ip', 255);
 			$table->timestamps();
 			$table->softDeletes();
 
@@ -46,5 +47,4 @@ class CreateRepliesTable extends Migration {
 	{
 		Schema::drop('replies');
 	}
-
 }
