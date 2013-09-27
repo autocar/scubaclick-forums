@@ -25,6 +25,10 @@ class CreateForumsTable extends Migration {
 			$table->string('title', 255);
 			$table->text('content');
 			$table->string('slug', 255);
+			$table->enum('status', [
+				'active', 
+				'closed', 
+			]);
 			$table->softDeletes();
 			$table->timestamps();
 

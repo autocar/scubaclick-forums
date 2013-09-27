@@ -23,24 +23,9 @@ class CreateTopicsTable extends Migration {
 			$table->increments('id');
 			$table->integer('user_id')->unsigned();
 			$table->integer('forum_id')->unsigned();
-			$table->enum('status', [
-				'new', 
-				'accepted', 
-				'progressing', 
-				'completed', 
-				'invalid'
-			]);
-			$table->enum('priority', [
-				'critial', 
-				'high', 
-				'normal', 
-				'low'
-			])->nullable();
-			$table->enum('type', [
-				'bug', 
-				'enhancement', 
-				'feature'
-			])->nullable();
+			$table->enum('status', array_keys(Config::get('forums::stati')));
+			$table->enum('priority', array_keys(Config::get('forums::priorities')))->nullable();
+			$table->enum('type', array_keys(Config::get('forums::types')))->nullable();
 			$table->string('title', 255);
 			$table->text('content');
 			$table->string('slug', 255);

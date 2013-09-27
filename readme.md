@@ -31,6 +31,19 @@ To change the configuration values, run the following command in the console:
 php artisan config:publish scubaclick/forums
 ```
 
+To create the migrations, run the following command in the console:
+```php
+php artisan migrate --package="scubaclick/forums"
+```
+
+Traits
+------
+
+There's also a trait for the user model included for PHP >= 5.4 (for lower versions the trait methods should just be copied across):
+```php
+use \ScubaClick\Forums\Traits\UserTrait
+```
+
 Notes
 -----
 

@@ -1,5 +1,6 @@
 <?php namespace ScubaClick\Forums\Repositories\Eloquent;
 
+use Input;
 use ScubaClick\Forums\Models\Topic;
 use ScubaClick\Forums\Contracts\TopicsInterface;
 
@@ -13,6 +14,35 @@ class TopicsRepository implements TopicsInterface
         return Topic::with('replies','labels')
             ->paginate($perPage);
 	}
+
+    /**
+     * {@inherit}
+     */
+    public function getJson($id)
+    {
+        $collection = array();
+
+        if($id) {
+            $t = Topic::find($id);
+            $topics = [$t];
+        } else {
+            $search = Input::get('q');
+            $limit  = Input::get('limit');
+           
+            $topics = Topic::search($search)
+                ->take($limit)
+                ->get();
+        }
+
+        foreach($topics as $topic) {
+            $collection[] = [
+                'id'   => $topic->id,
+                'name' => $topic->title,
+            ];
+        }
+
+        return $id ? $collection[0] : $collection;
+    }
 
     /**
      * {@inherit}

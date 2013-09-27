@@ -48,14 +48,4 @@ class ForumsServiceProvider extends ServiceProvider {
             'ScubaClick\\Forums\\Repositories\\Eloquent\\LabelsRepository'
         );
 	}
-
-	/**
-	 * Get the services provided by the provider.
-	 *
-	 * @return array
-	 */
-	public function provides()
-	{
-		return array('forums');
-	}
 }

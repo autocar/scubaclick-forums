@@ -72,4 +72,11 @@ interface ForumsInterface
      * @return boolean
      */
 	public function delete($id);
+
+    /**
+     * Get all forums for use in a dropdown
+     *
+     * @return array
+     */
+    public function getDropdown();
 }

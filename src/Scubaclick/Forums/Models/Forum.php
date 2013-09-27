@@ -1,6 +1,8 @@
 <?php namespace ScubaClick\Forums\Models;
 
+use Auth;
 use Config;
+use Purifier;
 
 class Forum extends Model
 {
@@ -26,6 +28,7 @@ class Forum extends Model
     protected $fillable = [
     	'title',
     	'content',
+        'status',
     ];
 
     /**
@@ -38,6 +41,7 @@ class Forum extends Model
         'title'   => 'required|min:3',
         'content' => 'required|min:8',
         'slug'    => 'required|min:3',
+        'status'  => 'required|in:active,closed'
 	];
 
    /**
@@ -49,6 +53,13 @@ class Forum extends Model
 
         static::saving(function($model)
         {
+            $model->user_id = empty($model->user_id) ? Auth::user()->id : $model->user_id;
+            $model->content = Purifier::clean($model->content);
+
+            if($model->isDirty('title')) {
+                $model->setAttribute('slug', $model->getUniqueSlug($model->getAttribute('title')));
+            }
+
             return $model->validate();
         });
     }

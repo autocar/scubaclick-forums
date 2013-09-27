@@ -1,5 +1,6 @@
 <?php namespace ScubaClick\Forums\Repositories\Eloquent;
 
+use Input;
 use ScubaClick\Forums\Models\Reply;
 use ScubaClick\Forums\Contracts\RepliesInterface;
 

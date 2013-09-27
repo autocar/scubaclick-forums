@@ -11,6 +11,14 @@ interface TopicsInterface
 	public function get($perPage = 12);
 
     /**
+     * Get topics in json format
+     *
+     * @param int $id
+     * @return Illuminate\Database\Eloquent\Collection
+     */
+    public function getJson($id);
+
+    /**
      * Get all trashed topics
      *
      * @param int $perPage

@@ -1,8 +1,12 @@
 <?php namespace ScubaClick\Forums\Models;
 
+use Auth;
 use Config;
+use Request;
+use Purifier;
+use ScubaClick\Feeder\Contracts\FeedInterface;
 
-class Reply extends Model
+class Reply extends Model implements FeedInterface
 {
     /**
      * The table associated with the model.
@@ -24,7 +28,10 @@ class Reply extends Model
      * @var array
      */
     protected $fillable = [
+        'user_id',
+        'topic_id',
     	'content',
+        'ip',
     ];
 
     /**
@@ -48,6 +55,10 @@ class Reply extends Model
 
         static::saving(function($model)
         {
+            $model->user_id = empty($model->user_id) ? Auth::user()->id : $model->user_id;
+            $model->content = Purifier::clean($model->content);
+            $model->ip      = empty($model->ip) ? Request::getClientIp() : $model->ip;
+
             return $model->validate();
         });
     }
@@ -70,5 +81,19 @@ class Reply extends Model
     public function user()
     {
         return $this->belongsTo(Config::get('auth.model'));
+    }
+
+    /**
+     * {@inherit}
+     */
+    public function getFeedItem()
+    {
+        return [
+            'title'       => '',
+            'author'      => '',
+            'link'        => '',
+            'pubDate'     => '',
+            'description' => '',
+        ];
     }
 }

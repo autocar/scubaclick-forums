@@ -1,5 +1,6 @@
 <?php namespace ScubaClick\Forums\Repositories\Eloquent;
 
+use Input;
 use ScubaClick\Forums\Models\Forum;
 use ScubaClick\Forums\Contracts\ForumsInterface;
 
@@ -94,4 +95,14 @@ class ForumsRepository implements ForumsInterface
 	{
         return Forum::find($id)->delete();
 	}
+
+    /**
+     * {@inherit}
+     */
+    public function getDropdown()
+    {
+        $forums = Forum::where('status', 'active')->lists('title', 'id');
+
+        return array('' => '') + $forums;
+    }
 }

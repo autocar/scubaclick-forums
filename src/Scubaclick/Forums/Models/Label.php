@@ -1,5 +1,8 @@
 <?php namespace ScubaClick\Forums\Models;
 
+use DB;
+use Illuminate\Support\Str;
+
 class Label extends Model
 {
     /**
@@ -10,12 +13,20 @@ class Label extends Model
     protected $table = 'labels';
 
     /**
+     * No timestamps for meta data
+     *
+     * @var bool
+     */
+    public $timestamps = false;
+
+    /**
      * Defining fillable attributes on the model
      *
      * @var array
      */
     protected $fillable = [
         'title',
+        'slug',
     ];
 
     /**
@@ -25,7 +36,7 @@ class Label extends Model
      */
 	public static $rules = [
         'title' => 'required|min:3',
-        'slug'  => 'required|min:3',
+        'slug'  => 'required|min:3|unique:labels,slug',
 	];
 
    /**
@@ -37,7 +48,14 @@ class Label extends Model
 
         static::saving(function($model)
         {
+            $model->slug = !empty($model->slug) ? Str::slug($model->slug) : Str::slug($model->title);
+
             return $model->validate();
+        });
+
+        static::deleted(function($model)
+        {
+            DB::table('label_topic')->where('label_id', $model->id)->delete();
         });
     }
 
