@@ -1,5 +1,6 @@
 <?php namespace ScubaClick\Forums\Models;
 
+use URL;
 use Auth;
 use Config;
 use Request;
@@ -185,6 +186,76 @@ class Topic extends Model implements FeedInterface
         if(count($labelIds) > 0) {
             $this->labels()->sync($labelIds);
         }
+    }
+
+    /**
+     * Get the formatted priority label
+     *
+     * @return string
+     */
+    public function getPriorityLabel()
+    {
+        return $this->getLabel('priority');
+    }
+
+    /**
+     * Get the formatted type label
+     *
+     * @return string
+     */
+    public function getTypeLabel()
+    {
+        return $this->getLabel('type');
+    }
+
+    /**
+     * Get the formatted status label
+     *
+     * @return string
+     */
+    public function getStatusLabel()
+    {
+        return $this->getLabel('status');
+    }
+
+    /**
+     * Get the formatted label
+     *
+     * @return string
+     */
+    protected function getLabel($type)
+    {
+        if(!$this->getAttribute($type)) {
+            return '';
+        }
+
+        $labels = Config::get('forums::labels.'. $type);
+
+        if(!isset($labels[$this->$type])) {
+            return '';
+        }
+
+        return '<span class="label label-'. $labels[$this->$type] .'">'. $this->$type .'</span>';
+    }
+
+    /**
+     * Can the topic be viewed
+     *
+     * @return boolean
+     */
+    public function isViewable()
+    {
+        return is_null($this->deleted_at);
+    }
+
+    /**
+     * Get the topic frontend link
+     *
+     * @return boolean
+     */
+    public function getLink()
+    {
+        return URL::to('/'. $this->forum->slug .'/'. $this->slug);
     }
 
     /**

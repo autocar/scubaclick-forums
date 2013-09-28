@@ -1,5 +1,6 @@
 <?php namespace ScubaClick\Forums\Models;
 
+use URL;
 use Auth;
 use Config;
 use Purifier;
@@ -82,5 +83,25 @@ class Forum extends Model
     public function user()
     {
         return $this->belongsTo(Config::get('auth.model'));
+    }
+
+    /**
+     * Can the forum be viewed
+     *
+     * @return boolean
+     */
+    public function isViewable()
+    {
+        return $this->status == 'active';
+    }
+
+    /**
+     * Get the forum frontend link
+     *
+     * @return boolean
+     */
+    public function getLink()
+    {
+        return URL::to('/'. $this->slug);
     }
 }

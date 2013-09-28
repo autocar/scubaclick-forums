@@ -54,6 +54,34 @@ return array(
 
     /*
     |--------------------------------------------------------------------------
+    | Holds all css label classes
+    |--------------------------------------------------------------------------
+    | Based on Twitter Bootstrap
+    */
+    'labels' => array(
+        'status' => array(
+            'new'         => 'default', 
+            'accepted'    => 'info',
+            'progressing' => 'important', 
+            'completed'   => 'success',
+            'invalid'     => 'inverse', 
+        ),
+        'priority' => array(
+            'low'     => 'default', 
+            'normal'  => 'info',
+            'high'    => 'warning', 
+            'critial' => 'important',
+        ),
+        'type' => array(
+            'bug'         => 'important', 
+            'enhancement' => 'info',
+            'feature'     => 'success',
+            'support'     => 'default',
+        ),
+    ),
+
+    /*
+    |--------------------------------------------------------------------------
     | Holds the foreign user id table
     |--------------------------------------------------------------------------
     | Can be set to just a string, like `users`. The anonymous function below

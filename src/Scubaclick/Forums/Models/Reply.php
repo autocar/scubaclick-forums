@@ -84,6 +84,26 @@ class Reply extends Model implements FeedInterface
     }
 
     /**
+     * Can the reply be viewed
+     *
+     * @return boolean
+     */
+    public function isViewable()
+    {
+        return $this->topic->isViewable();
+    }
+
+    /**
+     * Get the reply frontend link
+     *
+     * @return boolean
+     */
+    public function getLink()
+    {
+        return $this->topic->getLink() .'#reply-'. $this->id;
+    }
+
+    /**
      * {@inherit}
      */
     public function getFeedItem()

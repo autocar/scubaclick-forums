@@ -30,6 +30,7 @@ class CreateTopicsTable extends Migration {
 			$table->text('content');
 			$table->string('slug', 255);
 			$table->string('ip', 255);
+			$table->integer('views')->unsigned();
 			$table->timestamps();
 			$table->softDeletes();
 
