@@ -18,6 +18,14 @@ class ForumsRepository implements ForumsInterface
     /**
      * {@inherit}
      */
+    public function findBySlug($slug)
+    {
+        return Forum::findBySlug($slug);
+    }
+
+    /**
+     * {@inherit}
+     */
 	public function trashed($perPage = 12)
 	{
         return Forum::onlyTrashed()

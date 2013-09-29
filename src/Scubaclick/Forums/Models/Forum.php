@@ -4,6 +4,7 @@ use URL;
 use Auth;
 use Config;
 use Purifier;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class Forum extends Model
 {
@@ -63,6 +64,26 @@ class Forum extends Model
 
             return $model->validate();
         });
+    }
+
+    /**
+     * Get a forum by its slug
+     *
+     * @param  string $slug
+     * @return string
+     */
+    public static function findBySlug($slug)
+    {
+        $forum = static::with('topics.replies')
+            ->where('slug', $slug)
+            ->remember(5)
+            ->first();
+
+        if(is_null($forum)) {
+            throw new ModelNotFoundException;
+        }
+
+        return $forum;
     }
 
     /**

@@ -2,11 +2,13 @@
 
 use URL;
 use Auth;
+use Input;
 use Config;
 use Request;
 use Purifier;
 use Illuminate\Support\Str;
 use ScubaClick\Feeder\Contracts\FeedInterface;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class Topic extends Model implements FeedInterface
 {
@@ -88,9 +90,31 @@ class Topic extends Model implements FeedInterface
     }
 
     /**
+     * Get a topic by its slug
+     *
+     * @param  string $slug
+     * @param  mixed  $forum
+     * @return string
+     */
+    public static function findBySlug($slug, $forum)
+    {
+        $topic = static::with('replies', 'forum', 'labels')
+            ->where('slug', $slug)
+            ->remember(5)
+            ->first();
+
+        if(is_null($topic) || $topic->forum->slug != $forum) {
+            throw new ModelNotFoundException;
+        }
+
+        return $topic;
+    }
+
+    /**
      * Get the search query
      *
-     * @param  string $type
+     * @param  object $query
+     * @param  string $search
      * @return string
      */
     public function scopeSearch($query, $search)
@@ -259,16 +283,33 @@ class Topic extends Model implements FeedInterface
     }
 
     /**
+     * Checks if the lead topic should be shown
+     *
+     * @return boolean
+     */
+    public function showLead()
+    {
+        $showAlways = Config::get('forums::always_show_lead');
+        $paged      = Input::get('page');
+
+        if($showAlways || !$paged || $paged <= 1) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * {@inherit}
      */
     public function getFeedItem()
     {
         return [
-            'title'       => '',
-            'author'      => '',
-            'link'        => '',
-            'pubDate'     => '',
-            'description' => '',
+            'title'       => $this->title,
+            'author'      => $this->user->getFullName(),
+            'link'        => $this->getLink(),
+            'pubDate'     => $this->created_at,
+            'description' => $this->content,
         ];
     }
 }

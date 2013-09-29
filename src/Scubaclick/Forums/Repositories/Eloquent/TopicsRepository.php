@@ -18,6 +18,22 @@ class TopicsRepository implements TopicsInterface
     /**
      * {@inherit}
      */
+    public function getForForum($forum, $perPage = 12)
+    {
+        return $forum->topics()->paginate($perPage);
+    }
+
+    /**
+     * {@inherit}
+     */
+    public function findBySlug($slug, $forum)
+    {
+        return Topic::findBySlug($slug, $forum);
+    }
+
+    /**
+     * {@inherit}
+     */
     public function getJson($id)
     {
         $collection = array();

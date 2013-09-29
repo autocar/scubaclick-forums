@@ -36,6 +36,11 @@ To create the migrations, run the following command in the console:
 php artisan migrate --package="scubaclick/forums"
 ```
 
+Run the following command to publish the frontend CSS file
+```php
+php artisan asset:publish --package="scubaclick/forums"
+```
+
 Traits
 ------
 
@@ -47,7 +52,7 @@ use \ScubaClick\Forums\Traits\UserTrait
 Notes
 -----
 
-Please note that ScubaClick Forums does not provide any controllers, just the models, sub-views, migrations and repositories. You will have to implement all controllers yourself.
+Please note that ScubaClick Forums does not provide any controllers, just the models, sub-views, migrations and repositories. You will have to implement the rest yourself.
 
 License
 -------

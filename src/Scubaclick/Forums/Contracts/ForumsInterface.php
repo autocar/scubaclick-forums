@@ -11,6 +11,14 @@ interface ForumsInterface
 	public function get($perPage = 12);
 
     /**
+     * Get a forum by slug
+     *
+     * @param string $slug
+     * @return Illuminate\Database\Eloquent\Model
+     */
+    public function findBySlug($slug);
+
+    /**
      * Get all trashed forums
      *
      * @param int $perPage

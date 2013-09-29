@@ -1,6 +1,13 @@
 <?php
 
 return array(
+    /*
+    |--------------------------------------------------------------------------
+    | Should the lead topic aways be shown
+    |--------------------------------------------------------------------------
+    | If set to true then the lead topic will be shown on all paged replies
+    */
+    'always_show_lead' => false,
 
     /*
     |--------------------------------------------------------------------------

@@ -17,6 +17,14 @@ class RepliesRepository implements RepliesInterface
     /**
      * {@inherit}
      */
+    public function getForTopic($topic, $perPage = 12)
+    {
+        return $topic->replies()->paginate($perPage);
+    }
+
+    /**
+     * {@inherit}
+     */
 	public function trashed($perPage = 12)
 	{
         return Reply::onlyTrashed()

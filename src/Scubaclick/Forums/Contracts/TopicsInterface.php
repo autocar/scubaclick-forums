@@ -11,6 +11,24 @@ interface TopicsInterface
 	public function get($perPage = 12);
 
     /**
+     * Get all topics in a forum
+     *
+     * @param object $forum
+     * @param int $perPage
+     * @return Illuminate\Database\Eloquent\Collection
+     */
+    public function getForForum($forum, $perPage = 12);
+
+    /**
+     * Get a topic by slug
+     *
+     * @param string $slug
+     * @param string $forum
+     * @return Illuminate\Database\Eloquent\Model
+     */
+    public function findBySlug($slug, $forum);
+
+    /**
      * Get topics in json format
      *
      * @param int $id

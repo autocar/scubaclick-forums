@@ -109,11 +109,11 @@ class Reply extends Model implements FeedInterface
     public function getFeedItem()
     {
         return [
-            'title'       => '',
-            'author'      => '',
-            'link'        => '',
-            'pubDate'     => '',
-            'description' => '',
+            'title'       => sprintf('Reply to %s', $this->topic->title),
+            'author'      => $this->user->getFullName(),
+            'link'        => $this->getLink(),
+            'pubDate'     => $this->created_at,
+            'description' => $this->content,
         ];
     }
 }
