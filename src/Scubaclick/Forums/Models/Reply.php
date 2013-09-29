@@ -27,24 +27,24 @@ class Reply extends Model implements FeedInterface
      *
      * @var array
      */
-    protected $fillable = [
+    protected $fillable = array(
         'user_id',
         'topic_id',
     	'content',
         'ip',
-    ];
+    );
 
     /**
      * Holds all validation rules
      *
      * @var MessageBag
      */
-	public static $rules = [
+	public static $rules = array(
         'user_id'  => 'required|exists:users,id',
         'topic_id' => 'required|exists:topics,id',
         'content'  => 'required|min:8',
         'ip'       => 'required|ip',
-	];
+	);
 
    /**
      * Listen for save event
@@ -94,6 +94,16 @@ class Reply extends Model implements FeedInterface
     }
 
     /**
+     * Get the reply title
+     *
+     * @return boolean
+     */
+    public function getTitle()
+    {
+        return sprintf('Reply to %s', $this->topic->title);
+    }
+
+    /**
      * Get the reply frontend link
      *
      * @return boolean
@@ -108,12 +118,12 @@ class Reply extends Model implements FeedInterface
      */
     public function getFeedItem()
     {
-        return [
-            'title'       => sprintf('Reply to %s', $this->topic->title),
+        return array(
+            'title'       => $this->getTitle(),
             'author'      => $this->user->getFullName(),
             'link'        => $this->getLink(),
             'pubDate'     => $this->created_at,
             'description' => $this->content,
-        ];
+        );
     }
 }

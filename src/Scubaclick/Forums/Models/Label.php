@@ -24,20 +24,20 @@ class Label extends Model
      *
      * @var array
      */
-    protected $fillable = [
+    protected $fillable = array(
         'title',
         'slug',
-    ];
+    );
 
     /**
      * Holds all validation rules
      *
      * @var MessageBag
      */
-	public static $rules = [
+	public static $rules = array(
         'title' => 'required|min:3',
         'slug'  => 'required|min:3|unique:labels,slug',
-	];
+	);
 
    /**
      * Listen for save event

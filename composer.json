@@ -15,7 +15,8 @@
         "illuminate/support": "4.0.*",
         "illuminate/database": "4.0.*",
         "mews/purifier": "dev-master",
-        "scubaclick/feeder": "dev-develop"
+        "scubaclick/feeder": "dev-develop",
+        "nesbot/carbon": "1.*"
     },
     "autoload": {
         "classmap": [

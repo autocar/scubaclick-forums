@@ -1,6 +1,7 @@
 <?php namespace ScubaClick\Forums\Models;
 
 use URL;
+use View;
 use Auth;
 use Input;
 use Config;
@@ -31,31 +32,29 @@ class Topic extends Model implements FeedInterface
      *
      * @var array
      */
-    protected $fillable = [
+    protected $fillable = array(
     	'status',
         'forum_id',
-        'priority',
-        'type',
     	'title',
     	'content',
-    ];
+        'sticky',
+    );
 
     /**
      * Holds all validation rules
      *
      * @var MessageBag
      */
-	public static $rules = [
+	public static $rules = array(
         'user_id'  => 'required|exists:users,id',
         'forum_id' => 'required|exists:forums,id',
-        'priority' => 'required|in:{priorities}',
-        'type'     => 'required|in:{types}',
-        'status'   => 'required|in:{stati}',
+        'status'   => 'required|in:open,resolved',
         'title'    => 'required|min:3',
         'content'  => 'required|min:8',
         'slug'     => 'required|min:3',
         'ip'       => 'required|ip',
-	];
+        'sticky'   => 'between:0,1',
+	);
 
    /**
      * Listen for save event
@@ -66,17 +65,6 @@ class Topic extends Model implements FeedInterface
 
         static::saving(function($model)
         {
-            $priorities = implode(',', array_keys(Config::get('forums::priorities')));
-            $types      = implode(',', array_keys(Config::get('forums::types')));
-            $stati      = implode(',', array_keys(Config::get('forums::stati')));
-
-            $rules = array_map(function($rule) use ($priorities, $types, $stati) {
-                return str_replace(
-                    array('{priorities}', '{types}', '{stati}'), 
-                    array($priorities, $types, $stati)
-                , $rule);
-            }, Topic::$rules);
-
             $model->user_id = empty($model->user_id) ? Auth::user()->id : $model->user_id;
             $model->content = Purifier::clean($model->content);
             $model->ip      = empty($model->ip) ? Request::getClientIp() : $model->ip;
@@ -85,7 +73,7 @@ class Topic extends Model implements FeedInterface
                 $model->setAttribute('slug', $model->getUniqueSlug($model->getAttribute('title')));
             }
 
-            return $model->validate($rules);
+            return $model->validate();
         });
     }
 
@@ -123,8 +111,6 @@ class Topic extends Model implements FeedInterface
 
         return $query->where('title', 'like', "%$search%")
             ->orWhere('content', 'like', "%$search%")
-            ->orWhere('priority', 'like', "%$search%")
-            ->orWhere('type', 'like', "%$search%")
             ->orWhere('status', 'like', "%$search%");
     }
 
@@ -213,53 +199,17 @@ class Topic extends Model implements FeedInterface
     }
 
     /**
-     * Get the formatted priority label
-     *
-     * @return string
-     */
-    public function getPriorityLabel()
-    {
-        return $this->getLabel('priority');
-    }
-
-    /**
-     * Get the formatted type label
-     *
-     * @return string
-     */
-    public function getTypeLabel()
-    {
-        return $this->getLabel('type');
-    }
-
-    /**
      * Get the formatted status label
      *
      * @return string
      */
     public function getStatusLabel()
     {
-        return $this->getLabel('status');
-    }
+        $status = $this->status;
 
-    /**
-     * Get the formatted label
-     *
-     * @return string
-     */
-    protected function getLabel($type)
-    {
-        if(!$this->getAttribute($type)) {
-            return '';
-        }
-
-        $labels = Config::get('forums::labels.'. $type);
-
-        if(!isset($labels[$this->$type])) {
-            return '';
-        }
-
-        return '<span class="label label-'. $labels[$this->$type] .'">'. $this->$type .'</span>';
+        return View::make('forums::front._partials.status', compact(
+            'status'
+        ))->render();
     }
 
     /**
@@ -300,16 +250,56 @@ class Topic extends Model implements FeedInterface
     }
 
     /**
+     * Get the total number of participating users
+     *
+     * @return int
+     */
+    public function getVoices()
+    {
+        return count(array_unique(array_pluck($this->replies->toArray(), 'user_id')));
+    }
+
+    /**
+     * Get the latest reply
+     *
+     * @return ScubaClick\Forums\Models\Reply
+     */
+    public function getLatestReply()
+    {
+        return $this->replies()
+            ->orderBy('updated_at', 'desc')
+            ->first();
+    }
+
+    /**
+     * Get the freshness of the topic
+     *
+     * @return int
+     */
+    public function getFreshness()
+    {
+        $post = $this->getLatestReply();
+
+        if(is_null($post)) {
+            $post = $this;
+        }
+
+        return View::make('forums::front._partials.freshness', compact(
+            'post'
+        ))->render();
+    }
+
+    /**
      * {@inherit}
      */
     public function getFeedItem()
     {
-        return [
+        return array(
             'title'       => $this->title,
             'author'      => $this->user->getFullName(),
             'link'        => $this->getLink(),
             'pubDate'     => $this->created_at,
             'description' => $this->content,
-        ];
+        );
     }
 }

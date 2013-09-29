@@ -25,14 +25,11 @@ class Model extends Eloquent
     /**
      * Validates current attributes against rules
      *
-     * @param array $rules
      * @return bool
      */
-    public function validate($rules = array())
+    public function validate()
     {
-        $rules = empty($rules) ? static::$rules : $rules;
-
-        $validator = Validator::make($this->attributes, $rules);
+        $validator = Validator::make($this->attributes, static::$rules);
 
         if ($validator->passes()) {
             return true;

@@ -1,10 +1,11 @@
 <ul id="forum-{{{ $forum->id }}}" class="forums topics">
 	<li class="forum-header">
-		<ul class="forum-titles">
-			<li class="topic-title">Topic</li>
-			<li class="topic-voice-count">Voices</li>
-			<li class="topic-reply-count">Replies</li>
-			<li class="topic-freshness">Freshness</li>
+		<ul class="forum-lego">
+			<li class="forum-topic-info">Topic</li>
+			<li class="forum-topic-voice-count">Voices</li>
+			<li class="forum-topic-reply-count">Replies</li>
+			<li class="forum-topic-view-count">Views</li>
+			<li class="forum-topic-freshness">Freshness</li>
 		</ul>
 	</li>
 	<li class="forum-body">
@@ -20,3 +21,7 @@
 		{{ $topics->links() }}
 	</li>
 </ul>
+
+{{ Form::open() }}
+	@include('forums::front.forms.topic')
+{{ Form::close() }}

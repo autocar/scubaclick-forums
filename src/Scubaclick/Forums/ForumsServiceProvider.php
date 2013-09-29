@@ -1,5 +1,9 @@
 <?php namespace ScubaClick\Forums;
 
+use URL;
+use Request;
+use Illuminate\Support\Str;
+use ScubaClick\Forums\Models\Topic;
 use Illuminate\Support\ServiceProvider;
 
 class ForumsServiceProvider extends ServiceProvider {
@@ -28,6 +32,34 @@ class ForumsServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
+		$this->bindContracts();
+		$this->incrementViews();
+	}
+
+	/**
+	 * Increment the topic views
+	 *
+	 * @todo Needs some fine-tuning
+	 * @return void
+	 */
+	protected function incrementViews()
+	{
+        $this->app['view']->composer('forums::front.loops.replies', function($view) {
+			$topic = Topic::findBySlug(Request::segment(2), Request::segment(1));
+
+			if(!Str::contains(URL::previous(), $topic->getLink())) {
+        		$topic->increment('views');
+        	}
+        });
+	}
+
+	/**
+	 * Bind all interfaces
+	 *
+	 * @return void
+	 */
+	protected function bindContracts()
+	{
         $this->app->bind(
             'ScubaClick\\Forums\\Contracts\\ForumsInterface',
             'ScubaClick\\Forums\\Repositories\\Eloquent\\ForumsRepository'
@@ -47,5 +79,5 @@ class ForumsServiceProvider extends ServiceProvider {
             'ScubaClick\\Forums\\Contracts\\LabelsInterface',
             'ScubaClick\\Forums\\Repositories\\Eloquent\\LabelsRepository'
         );
-	}
+    }
 }

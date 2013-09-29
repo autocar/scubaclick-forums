@@ -1,10 +1,4 @@
 <ul id="topic-{{{ $topic->id }}}-replies" class="forums replies">
-	<li class="forum-header">
-		<ul class="forum-titles">
-			<li class="reply-author">Author</li>
-			<li class="reply-content">Replies</li>
-		</ul>
-	</li>
 	<li class="forum-body">
 	@include('forums::front.singles.lead')
 
@@ -18,3 +12,7 @@
 		{{ $replies->links() }}
 	</li>
 </ul>
+
+{{ Form::open() }}
+	@include('forums::front.forms.reply')
+{{ Form::close() }}

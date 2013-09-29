@@ -1,0 +1,105 @@
+.forums {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.forums *, .forums:before *, .forums:after * {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.forums .forum-header,
+.forums .forum-body,
+.forums .forum-footer {
+  clear: both;
+}
+.forums .forum-header,
+.forums .forum-footer {
+  background: #efefef;
+  overflow: hidden;
+}
+.forums .forum-body .alert {
+  margin: 10px 0 0;
+}
+.forums .forum-body .forum-lego {
+  border-bottom: 1px solid #efefef;
+}
+.forums .forum-body .forum-lego:hover {
+  background: #eaeaea;
+}
+.forums .forum-header {
+  font-size: 14px;
+  font-weight: bold;
+}
+.forums .forum-lego {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  clear: both;
+  overflow: hidden;
+}
+.forums .forum-lego li {
+  float: left;
+  margin: 0;
+  padding: 10px 14px;
+  list-style: none;
+}
+.forums .forum-info {
+  width: 40%;
+}
+.forums .forum-topic-info {
+  width: 30%;
+}
+.forums .forum-topic-view-count,
+.forums .forum-topic-voice-count,
+.forums .forum-topic-reply-count,
+.forums .forum-topic-count,
+.forums .forum-reply-count {
+  text-align: center;
+  width: 15%;
+}
+.forums .forum-topic-freshness,
+.forums .forum-freshness {
+  text-align: right;
+  width: 30%;
+}
+.forums .forum-topic-freshness .forum-latest-poster,
+.forums .forum-freshness .forum-latest-poster {
+  font-size: 11px;
+}
+.forums .forum-topic-freshness p:last-child,
+.forums .forum-freshness p:last-child {
+  margin-bottom: 0;
+}
+.forums .forum-topic-freshness {
+  width: 25%;
+}
+.forums .forum-meta {
+  font-size: 11px;
+}
+.forums .forum-meta p:last-child {
+  margin-bottom: 0;
+}
+.forums .forum-reply-header {
+  background: #eaeaea;
+  font-style: italic;
+  font-size: 12px;
+}
+.forums .forum-reply-header:hover {
+  background: #eaeaea;
+}
+.forums .forum-reply-body.forum-lego:hover {
+  background: transparent;
+}
+.forums .forum-reply-author {
+  width: 20%;
+}
+.forums .forum-reply-content {
+  width: 80%;
+}
+.forums .forum-reply-permalink {
+  float: right;
+}

@@ -1,6 +1,6 @@
-<ul id="forums-list" class="forums">
+<ul class="forums">
 	<li class="forum-header">
-		<ul class="forum-titles">
+		<ul class="forum-lego">
 			<li class="forum-info">Forum</li>
 			<li class="forum-topic-count">Topics</li>
 			<li class="forum-reply-count">Replies</li>

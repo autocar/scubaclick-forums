@@ -2,6 +2,7 @@
 
 use URL;
 use Auth;
+use View;
 use Config;
 use Purifier;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -27,24 +28,24 @@ class Forum extends Model
      *
      * @var array
      */
-    protected $fillable = [
+    protected $fillable = array(
     	'title',
     	'content',
         'status',
-    ];
+    );
 
     /**
      * Holds all validation rules
      *
      * @var MessageBag
      */
-	public static $rules = [
+	public static $rules = array(
         'user_id' => 'required|exists:users,id',
         'title'   => 'required|min:3',
         'content' => 'required|min:8',
         'slug'    => 'required|min:3',
         'status'  => 'required|in:active,closed'
-	];
+	);
 
    /**
      * Listen for save event
@@ -124,5 +125,47 @@ class Forum extends Model
     public function getLink()
     {
         return URL::to('/'. $this->slug);
+    }
+
+    /**
+     * Get the total replies for a topic
+     *
+     * @return int
+     */
+    public function getReplyCount()
+    {
+        $count = 0;
+
+        foreach($this->topics as $topic) {
+            $count += $topic->replies->count();
+        }
+
+        return $count;
+    }
+
+    /**
+     * Get the latest topic
+     *
+     * @return ScubaClick\Forums\Models\Topic
+     */
+    public function getLatestTopic()
+    {
+        return $this->topics()
+            ->orderBy('updated_at', 'desc')
+            ->first();
+    }
+
+    /**
+     * Get the freshness of the forum
+     *
+     * @return int
+     */
+    public function getFreshness()
+    {
+        $post = $this->getLatestTopic();
+
+        return View::make('forums::front._partials.freshness', compact(
+            'post'
+        ))->render();
     }
 }

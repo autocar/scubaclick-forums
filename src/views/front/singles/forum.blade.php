@@ -1,24 +1,20 @@
-<ul id="forum-{{{ $forum->id }}}">
+<ul id="forum-{{{ $forum->id }}}" class="forum-lego">
 	<li class="forum-info">
 		<a class="forum-title" href="{{{ $forum->getLink() }}}" title="{{{ $forum->title }}}">
 			{{{ $forum->title }}}
 		</a>
 
-		<div class="forum-content">
+		<div class="forum-meta">
 			{{ $forum->content }}
 		</div>
 	</li>
 	<li class="forum-topic-count">
-		
+		<span class="badge badge-info">{{{ $forum->topics->count() }}}</span>
 	</li>
 	<li class="forum-reply-count">
-		
+		<span class="badge badge-info">{{{ $forum->getReplyCount() }}}</span>
 	</li>
 	<li class="forum-freshness">
-		<p class="topic-meta">
-			<span class="topic-freshness-author">
-				
-			</span>
-		</p>
+		{{ $forum->getFreshness() }}
 	</li>
 </ul>
