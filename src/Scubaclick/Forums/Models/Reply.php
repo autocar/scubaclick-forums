@@ -64,6 +64,17 @@ class Reply extends Model implements FeedInterface
     }
 
     /**
+     * Register a canEdit model event with the dispatcher.
+     *
+     * @param  \Closure|string  $callback
+     * @return void
+     */
+    public static function canEdit($callback)
+    {
+        static::registerModelEvent('canEdit', $callback);
+    }
+
+    /**
      * Connect the forum
      *
      * @return object
@@ -81,6 +92,23 @@ class Reply extends Model implements FeedInterface
     public function user()
     {
         return $this->belongsTo(Config::get('auth.model'));
+    }
+
+    /**
+     * Check if the current user can edit this topic
+     *
+     * @return boolean
+     */
+    public function currentUserCanEdit()
+    {
+        $result = $this->fireModelEvent('canEdit');
+
+        if (is_bool($result)) {
+            return $result;
+        }
+
+        // backup
+        return $this->user_id == Auth::user()->id;
     }
 
     /**

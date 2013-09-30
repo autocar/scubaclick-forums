@@ -68,6 +68,17 @@ class Forum extends Model
     }
 
     /**
+     * Register a canPost model event with the dispatcher.
+     *
+     * @param  \Closure|string  $callback
+     * @return void
+     */
+    public static function canPost($callback)
+    {
+        static::registerModelEvent('canPost', $callback);
+    }
+
+    /**
      * Get a forum by its slug
      *
      * @param  string $slug
@@ -155,6 +166,22 @@ class Forum extends Model
             ->first();
     }
 
+    /**
+     * Check if the current user can post to this forum
+     *
+     * @return boolean
+     */
+    public function currentUserCanPost()
+    {
+        $result = $this->fireModelEvent('canPost');
+
+        if (is_bool($result)) {
+            return $result;
+        }
+
+        // backup
+        return Auth::check();
+    }
     /**
      * Get the freshness of the forum
      *

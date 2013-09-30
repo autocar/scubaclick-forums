@@ -22,6 +22,10 @@
 	</li>
 </ul>
 
-{{ Form::open() }}
-	@include('forums::front.forms.topic')
-{{ Form::close() }}
+@if($forum->currentUserCanPost())
+	{{ Form::open(array('method' => 'POST', 'class' => 'form-horizontal forum-form')) }}
+		@include('forums::front.forms.topic')
+	{{ Form::close() }}
+@else
+	<div class="alert alert-error">You are not allowed to create a topic in this forum.</div>
+@endif

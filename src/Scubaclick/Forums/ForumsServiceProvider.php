@@ -34,6 +34,17 @@ class ForumsServiceProvider extends ServiceProvider {
 	{
 		$this->bindContracts();
 		$this->incrementViews();
+		$this->loadHelpers();
+	}
+
+	/**
+	 * Load the helper functions
+	 *
+	 * @return void
+	 */
+	protected function loadHelpers()
+	{
+		require __DIR__ .'/helpers.php';
 	}
 
 	/**

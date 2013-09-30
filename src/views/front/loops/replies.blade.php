@@ -13,6 +13,10 @@
 	</li>
 </ul>
 
-{{ Form::open() }}
-	@include('forums::front.forms.reply')
-{{ Form::close() }}
+@if($topic->currentUserCanReply())
+	{{ Form::open(array('method' => 'POST', 'class' => 'form-horizontal forum-form')) }}
+		@include('forums::front.forms.reply')
+	{{ Form::close() }}
+@else
+	<div class="alert alert-error">You are not allowed to reply to this topic.</div>
+@endif

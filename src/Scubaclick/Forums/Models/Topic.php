@@ -78,6 +78,28 @@ class Topic extends Model implements FeedInterface
     }
 
     /**
+     * Register a canReply model event with the dispatcher.
+     *
+     * @param  \Closure|string  $callback
+     * @return void
+     */
+    public static function canReply($callback)
+    {
+        static::registerModelEvent('canReply', $callback);
+    }
+
+    /**
+     * Register a canEdit model event with the dispatcher.
+     *
+     * @param  \Closure|string  $callback
+     * @return void
+     */
+    public static function canEdit($callback)
+    {
+        static::registerModelEvent('canEdit', $callback);
+    }
+
+    /**
      * Get a topic by its slug
      *
      * @param  string $slug
@@ -230,6 +252,39 @@ class Topic extends Model implements FeedInterface
     public function getLink()
     {
         return URL::to('/'. $this->forum->slug .'/'. $this->slug);
+    }
+
+    /**
+     * Check if the current user can reply to this topic
+     *
+     * @return boolean
+     */
+    public function currentUserCanReply()
+    {
+        $result = $this->fireModelEvent('canReply');
+
+        if (is_bool($result)) {
+            return $result;
+        }
+
+        // backup
+        return Auth::check();
+    }
+
+    /**
+     * Check if the current user can edit this topic
+     *
+     * @return boolean
+     */
+    public function currentUserCanEdit()
+    {
+        $result = $this->fireModelEvent('canEdit');
+
+        if (is_bool($result)) {
+            return $result;
+        }
+
+        return $this->user_id == Auth::user()->id;
     }
 
     /**
