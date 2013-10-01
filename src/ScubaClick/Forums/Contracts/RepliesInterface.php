@@ -90,4 +90,20 @@ interface RepliesInterface
      * @return boolean
      */
 	public function delete($id);
+
+    /**
+     * Update a reply with author check
+     *
+     * @param int $id
+     * @return Illuminate\Database\Eloquent\Model
+     */
+    public function updateWithCheck($id);
+
+    /**
+     * Soft delete a reply with author check
+     *
+     * @param int $id
+     * @return Illuminate\Database\Eloquent\Model
+     */
+    public function deleteWithCheck($id);
 }

@@ -9,8 +9,9 @@ use Redirect;
 use BaseController;
 use ScubaClick\Forums\Contracts\TopicsInterface;
 use ScubaClick\Forums\Contracts\ForumsInterface;
-use ScubaClick\Forums\Contracts\RepliesInterface;
 use ScubaClick\Forums\Contracts\LabelsInterface;
+use ScubaClick\Forums\Contracts\RepliesInterface;
+use ScubaClick\Forums\Exceptions\NotAllowedException;
 
 class FrontController extends BaseController
 {
@@ -262,31 +263,31 @@ class FrontController extends BaseController
             ->fetch();
     }
 
-
-
-
-
-
     /**
      * Edit a topic
      *
      * @param  string $forumSlug 
      * @param  string $topicSlug
+     * @return Redirect
      */
     public function editTopicAction($forumSlug, $topicSlug)
     {
-        $topic = $this->topics->findBySlug($topicSlug, $forumSlug);
-    }
+        try {
+            $topic = $this->topics->updateBySlug($topicSlug, $forumSlug);
+        }
+        catch(NotAllowedException $exception) {
+            return Redirect::to($topic->getLink())
+                ->with('flash_error', 'You are not allowed to edit this topic.');
+        }
 
-    /**
-     * Delete a topic
-     *
-     * @param  string $forumSlug 
-     * @param  string $topicSlug
-     */
-    public function deleteTopic($forumSlug, $topicSlug)
-    {
-        $topic = $this->topics->findBySlug($topicSlug, $forumSlug);
+        if($topic->isSaved()) {
+            return Redirect::to($topic->getLink())
+                ->with('flash_success', 'Topic has been saved.');
+        } else {
+            return Redirect::back()
+                ->withErrors($topic->getErrors())
+                ->withInput();
+        }
     }
 
     /**
@@ -294,10 +295,25 @@ class FrontController extends BaseController
      *
      * @param  string $forumSlug 
      * @param  string $topicSlug
+     * @return Redirect
      */
     public function resolveTopic($forumSlug, $topicSlug)
     {
-        $topic = $this->topics->findBySlug($topicSlug, $forumSlug);
+        try {
+            $topic = $this->topics->resolveBySlug($topicSlug, $forumSlug);
+        }
+        catch(NotAllowedException $exception) {
+            return Redirect::to($topic->getLink())
+                ->with('flash_error', 'You are not allowed to resolve this topic.');
+        }
+
+        if($topic->isSaved()) {
+            return Redirect::to($topic->getLink())
+                ->with('flash_success', 'Topic has been resolved.');
+        } else {
+            return Redirect::to($topic->getLink())
+                ->with('flash_error', 'Topic could not be resolved.');
+        }
     }
 
     /**
@@ -305,10 +321,53 @@ class FrontController extends BaseController
      *
      * @param  string $forumSlug 
      * @param  string $topicSlug
+     * @return Redirect
      */
     public function reopenTopic($forumSlug, $topicSlug)
     {
-        $topic = $this->topics->findBySlug($topicSlug, $forumSlug);
+        try {
+            $topic = $this->topics->reopenBySlug($topicSlug, $forumSlug);
+        }
+        catch(NotAllowedException $exception) {
+            return Redirect::to($topic->getLink())
+                ->with('flash_error', 'You are not allowed to re-open this topic.');
+        }
+
+        if($topic->isSaved()) {
+            return Redirect::to($topic->getLink())
+                ->with('flash_success', 'Topic has been re-opened.');
+        } else {
+            return Redirect::to($topic->getLink())
+                ->with('flash_error', 'Topic could not be re-opened.');
+        }
+    }
+
+    /**
+     * Delete a topic
+     *
+     * @param  string $forumSlug 
+     * @param  string $topicSlug
+     * @return Redirect
+     */
+    public function deleteTopic($forumSlug, $topicSlug)
+    {
+        try {
+            $topic = $this->topics->deleteBySlug($topicSlug, $forumSlug);
+        }
+        catch(NotAllowedException $exception) {
+            return Redirect::to($topic->getLink())
+                ->with('flash_error', 'You are not allowed to delete this topic.');
+        }
+
+        if(!$topic->exists) {
+            return Redirect::route($topic->getRoutePrefix() .'forum.front.forum', array(
+                    'forum' => $forumSlug
+                ))
+                ->with('flash_success', 'Topic has been deleted.');
+        } else {
+            return Redirect::to($topic->getLink())
+                ->with('flash_error', 'Topic could not be deleted.');
+        }
     }
 
     /**
@@ -320,7 +379,21 @@ class FrontController extends BaseController
      */
     public function editReplyAction($forumSlug, $topicSlug, $replyId)
     {
-        $reply = $this->replies->update($replyId);
+        try {
+            $reply = $this->replies->updateWithCheck($replyId);
+        }
+        catch(NotAllowedException $exception) {
+            return Redirect::to($reply->getLink())
+                ->with('flash_error', 'You are not allowed to edit this reply.');
+        }
+
+        if($reply->isSaved()) {
+            return Redirect::to($reply->getLink())
+                ->with('flash_success', 'Reply has been updated.');
+        } else {
+            return Redirect::to($reply->getLink())
+                ->with('flash_error', 'Reply could not be updated.');
+        }
     }
 
     /**
@@ -332,6 +405,20 @@ class FrontController extends BaseController
      */
     public function deleteReply($forumSlug, $topicSlug, $replyId)
     {
-        $reply = $this->replies->delete($replyId);
+        try {
+            $reply = $this->replies->deleteWithCheck($replyId);
+        }
+        catch(NotAllowedException $exception) {
+            return Redirect::to($reply->getLink())
+                ->with('flash_error', 'You are not allowed to delete this reply.');
+        }
+
+        if(!$reply->exists) {
+            return Redirect::to($reply->topic->getLink())
+                ->with('flash_success', 'Reply has been deleted.');
+        } else {
+            return Redirect::to($reply->getLink())
+                ->with('flash_error', 'Reply could not be deleted.');
+        }
     }
 }

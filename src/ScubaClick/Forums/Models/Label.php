@@ -71,7 +71,6 @@ class Label extends Model
     {
         $label = static::with('topics')
             ->where('slug', $slug)
-            ->remember(5)
             ->first();
 
         if(is_null($label)) {

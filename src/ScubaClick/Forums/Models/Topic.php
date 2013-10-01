@@ -110,7 +110,6 @@ class Topic extends Model implements FeedInterface
     {
         $topic = static::with('replies', 'forum', 'labels')
             ->where('slug', $slug)
-            ->remember(5)
             ->first();
 
         if(is_null($topic) || $topic->forum->slug != $forum) {

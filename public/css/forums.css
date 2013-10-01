@@ -1,10 +1,10 @@
 .forums {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
   margin: 0;
   padding: 0;
   list-style: none;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
 }
 .forums *, .forums:before *, .forums:after * {
   -webkit-box-sizing: border-box;
@@ -29,6 +29,9 @@
 }
 .forums .forum-body .forum-lego:hover {
   background: #eaeaea;
+}
+.forums .forum-body .topic-tags {
+  margin-top: 10px;
 }
 .forums .forum-header {
   font-size: 14px;
@@ -100,6 +103,49 @@
 .forums .forum-reply-content {
   width: 80%;
 }
-.forums .forum-reply-permalink {
+.forums .forum-reply-content .last-edited {
+  margin-top: 20px;
+  border-top: 1px solid #efefef;
+  font-size: 10px;
+  text-align: right;
+}
+.forums .forum-actions {
   float: right;
+}
+.forums .forum-actions form {
+  display: inline;
+}
+.forums .forum-actions .forum-reply-deletelink,
+.forums .forum-actions .forum-topic-deletelink {
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  -ms-border-radius: 0;
+  -o-border-radius: 0;
+  border-radius: 0;
+  margin-left: -1px;
+  margin-right: -1px;
+}
+.forums .forum-actions .forum-topic-reopenlink,
+.forums .forum-actions .forum-topic-resolvelink {
+  -webkit-border-radius: 3px 0 0 3px;
+  -moz-border-radius: 3px 0 0 3px;
+  -ms-border-radius: 3px 0 0 3px;
+  -o-border-radius: 3px 0 0 3px;
+  border-radius: 3px 0 0 3px;
+  margin-right: -1px;
+}
+
+.forum-form {
+  margin-top: 30px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.forum-form *, .forum-form:before *, .forum-form:after * {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.forum-form .alert {
+  width: 65.81196581196582%;
 }

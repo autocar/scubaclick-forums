@@ -16,7 +16,7 @@
 
 		<a href="{{{ $topic->getEditLink() }}}" title="Edit {{{ $topic->title }}}" class="btn btn-mini btn-info forum-topic-editlink">Edit</a> 
 
-		{{ Form::open(array('route' => array($topic->getRoutePrefix() .'forum.front.topic.delete', $topic->forum->slug, $topic->slug))) }}
+		{{ Form::open(array('route' => array($topic->getRoutePrefix() .'forum.front.topic.delete', $topic->forum->slug, $topic->slug), 'method' => 'DELETE')) }}
 		<button title="Delete {{{ $topic->title }}}" class="btn btn-mini btn-warning forum-topic-deletelink">
 			Delete
 		</button>

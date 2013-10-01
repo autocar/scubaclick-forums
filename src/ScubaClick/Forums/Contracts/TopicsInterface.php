@@ -101,6 +101,42 @@ interface TopicsInterface
 	public function update($id);
 
     /**
+     * Update a topic by slug
+     *
+     * @param string $slug
+     * @param string $forum
+     * @return Illuminate\Database\Eloquent\Model
+     */
+    public function updateBySlug($slug, $forum);
+
+    /**
+     * Resolve a topic by slug
+     *
+     * @param string $slug
+     * @param string $forum
+     * @return Illuminate\Database\Eloquent\Model
+     */
+    public function resolveBySlug($slug, $forum);
+
+    /**
+     * Re-open a topic by slug
+     *
+     * @param string $slug
+     * @param string $forum
+     * @return Illuminate\Database\Eloquent\Model
+     */
+    public function reopenBySlug($slug, $forum);
+
+    /**
+     * Delete a topic by slug
+     *
+     * @param string $slug
+     * @param string $forum
+     * @return Illuminate\Database\Eloquent\Model
+     */
+    public function deleteBySlug($slug, $forum);
+
+    /**
      * Soft delete a topic
      *
      * @param int $id

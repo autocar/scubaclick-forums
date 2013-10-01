@@ -88,7 +88,6 @@ class Forum extends Model
     {
         $forum = static::with('topics.replies')
             ->where('slug', $slug)
-            ->remember(5)
             ->first();
 
         if(is_null($forum)) {

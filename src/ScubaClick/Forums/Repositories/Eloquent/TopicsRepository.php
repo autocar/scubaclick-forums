@@ -1,8 +1,10 @@
 <?php namespace ScubaClick\Forums\Repositories\Eloquent;
 
+use Auth;
 use Input;
 use ScubaClick\Forums\Models\Topic;
 use ScubaClick\Forums\Contracts\TopicsInterface;
+use ScubaClick\Forums\Exceptions\NotAllowedException;
 
 class TopicsRepository implements TopicsInterface
 {
@@ -152,6 +154,77 @@ class TopicsRepository implements TopicsInterface
 
         return $topic;
 	}
+
+    /**
+     * {@inherit}
+     */
+    public function updateBySlug($slug, $forum)
+    {
+        $input = Input::all();
+
+        $topic = Topic::findBySlug($slug, $forum);
+
+        if($topic->user_id != Auth::user()->id) {
+            throw new NotAllowedException;
+        }
+
+        $topic->update($input);
+        $topic->attachLabels($input['labels']);
+
+        return $topic;
+    }
+
+    /**
+     * {@inherit}
+     */
+    public function resolveBySlug($slug, $forum)
+    {
+        $topic = Topic::findBySlug($slug, $forum);
+
+        if($topic->user_id != Auth::user()->id) {
+            throw new NotAllowedException;
+        }
+
+        $topic->update([
+            'status' => 'resolved'
+        ]);
+
+        return $topic;
+    }
+
+    /**
+     * {@inherit}
+     */
+    public function reopenBySlug($slug, $forum)
+    {
+        $topic = Topic::findBySlug($slug, $forum);
+
+        if($topic->user_id != Auth::user()->id) {
+            throw new NotAllowedException;
+        }
+
+        $topic->update([
+            'status' => 'open'
+        ]);
+
+        return $topic;
+    }
+
+    /**
+     * {@inherit}
+     */
+    public function deleteBySlug($slug, $forum)
+    {
+        $topic = Topic::findBySlug($slug, $forum);
+
+        if($topic->user_id != Auth::user()->id) {
+            throw new NotAllowedException;
+        }
+
+        $topic->delete();
+
+        return $topic;
+    }
 
     /**
      * {@inherit}
