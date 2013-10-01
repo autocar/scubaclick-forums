@@ -2,6 +2,7 @@
 
 use Auth;
 use Input;
+use Config;
 use ScubaClick\Forums\Models\Topic;
 use ScubaClick\Forums\Contracts\TopicsInterface;
 use ScubaClick\Forums\Exceptions\NotAllowedException;
@@ -11,28 +12,28 @@ class TopicsRepository implements TopicsInterface
     /**
      * {@inherit}
      */
-	public function get($perPage = 12)
+	public function get()
 	{
         return Topic::with('replies','labels')
-            ->paginate($perPage);
+            ->paginate(Config::get('forums::per_page'));
 	}
 
     /**
      * {@inherit}
      */
-    public function getForForum($forum, $perPage = 12)
+    public function getForForum($forum)
     {
         return $forum->topics()
-            ->paginate($perPage);
+            ->paginate(Config::get('forums::per_page'));
     }
 
     /**
      * {@inherit}
      */
-    public function getForFeed($forum, $perPage = 12)
+    public function getForFeed($forum)
     {
         return $forum->topics()
-            ->take($perPage)
+            ->take(Config::get('forums::per_page'))
             ->get();
     }
 
@@ -76,10 +77,10 @@ class TopicsRepository implements TopicsInterface
     /**
      * {@inherit}
      */
-	public function trashed($perPage = 12)
+	public function trashed()
 	{
         return Topic::onlyTrashed()
-            ->paginate($perPage);
+            ->paginate(Config::get('forums::per_page'));
 	}
 
     /**

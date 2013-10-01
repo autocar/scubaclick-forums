@@ -22,19 +22,17 @@ interface LabelsInterface
      * Get topics for a label
      *
      * @param object $label
-     * @param int $perPage
      * @return Illuminate\Database\Eloquent\Collection
      */
-    public function getTopics($label, $perPage = 12);
+    public function getTopics($label);
 
     /**
      * Get topics for a label feed
      *
      * @param object $label
-     * @param int $perPage
      * @return Illuminate\Database\Eloquent\Collection
      */
-    public function getTopicFeed($label, $perPage = 12);
+    public function getTopicFeed($label);
 
     /**
      * Get all label titles as a json array

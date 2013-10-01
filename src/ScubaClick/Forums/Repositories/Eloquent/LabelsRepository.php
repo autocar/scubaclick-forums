@@ -1,5 +1,6 @@
 <?php namespace ScubaClick\Forums\Repositories\Eloquent;
 
+use Config;
 use ScubaClick\Forums\Models\Label;
 use ScubaClick\Forums\Contracts\LabelsInterface;
 
@@ -24,21 +25,21 @@ class LabelsRepository implements LabelsInterface
     /**
      * {@inheritdoc}
      */
-    public function getTopics($label, $perPage = 12)
+    public function getTopics($label)
     {
         return $label->topics()
             ->with('forum')
-            ->paginate($perPage);
+            ->paginate(Config::get('forums::per_page'));
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getTopicFeed($label, $perPage = 12)
+    public function getTopicFeed($label)
     {
         return $label->topics()
             ->orderBy('created_at', 'desc')
-            ->take($perPage)
+            ->take(Config::get('forums::per_page'))
             ->get();
     }
 

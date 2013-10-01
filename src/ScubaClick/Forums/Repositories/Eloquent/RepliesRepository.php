@@ -2,6 +2,7 @@
 
 use Auth;
 use Input;
+use Config;
 use ScubaClick\Forums\Models\Reply;
 use ScubaClick\Forums\Contracts\RepliesInterface;
 use ScubaClick\Forums\Exceptions\NotAllowedException;
@@ -11,37 +12,37 @@ class RepliesRepository implements RepliesInterface
     /**
      * {@inherit}
      */
-	public function get($perPage = 12)
+	public function get()
 	{
-        return Reply::paginate($perPage);
+        return Reply::paginate(Config::get('forums::per_page'));
 	}
 
     /**
      * {@inherit}
      */
-    public function getForTopic($topic, $perPage = 12)
+    public function getForTopic($topic)
     {
         return $topic->replies()
-            ->paginate($perPage);
+            ->paginate(Config::get('forums::per_page'));
     }
 
     /**
      * {@inherit}
      */
-    public function getForFeed($topic, $perPage = 12)
+    public function getForFeed($topic)
     {
         return $topic->replies()
-            ->take($perPage)
+            ->take(Config::get('forums::per_page'))
             ->get();
     }
 
     /**
      * {@inherit}
      */
-	public function trashed($perPage = 12)
+	public function trashed()
 	{
         return Reply::onlyTrashed()
-            ->paginate($perPage);
+            ->paginate(Config::get('forums::per_page'));
 	}
 
     /**

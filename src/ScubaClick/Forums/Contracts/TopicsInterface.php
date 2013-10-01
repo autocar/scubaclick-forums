@@ -5,28 +5,25 @@ interface TopicsInterface
     /**
      * Get all topics for a listing
      *
-     * @param int $perPage
      * @return Illuminate\Database\Eloquent\Collection
      */
-	public function get($perPage = 12);
+	public function get();
 
     /**
      * Get all topics in a forum
      *
      * @param object $forum
-     * @param int $perPage
      * @return Illuminate\Database\Eloquent\Collection
      */
-    public function getForForum($forum, $perPage = 12);
+    public function getForForum($forum);
 
     /**
      * Get all topics in a forum for a feed
      *
      * @param object $forum
-     * @param int $perPage
      * @return Illuminate\Database\Eloquent\Collection
      */
-    public function getForFeed($forum, $perPage = 12);
+    public function getForFeed($forum);
 
     /**
      * Get a topic by slug
@@ -48,10 +45,9 @@ interface TopicsInterface
     /**
      * Get all trashed topics
      *
-     * @param int $perPage
      * @return Illuminate\Database\Eloquent\Collection
      */
-	public function trashed($perPage = 12);
+	public function trashed();
 
     /**
      * Finally delete a topic

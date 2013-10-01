@@ -16,8 +16,7 @@
 .forums .forum-footer {
   clear: both;
 }
-.forums .forum-header,
-.forums .forum-footer {
+.forums .forum-header {
   background: #efefef;
   overflow: hidden;
 }
@@ -148,4 +147,9 @@
 }
 .forum-form .alert {
   width: 65.81196581196582%;
+}
+.forum-form .mce-panel {
+  background: transparent;
+  border: none;
+  width: 90%;
 }

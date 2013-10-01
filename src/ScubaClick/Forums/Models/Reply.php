@@ -129,7 +129,23 @@ class Reply extends Model implements FeedInterface
      */
     public function getLink()
     {
-        return $this->topic->getLink() .'#reply-'. $this->id;
+        $perPage = Config::get('forums::per_page');
+
+        // we have more than 1 page
+        $paged = '';
+        $replies = $this->topic->replies;
+
+        if($replies->count() > $perPage) {
+            foreach($replies as $index => $reply) {
+                if($reply->id == $this->id) {
+                    break;
+                }
+            }
+
+            $paged = '?page='. ceil(($index + 1) / $perPage);
+        }
+
+        return $this->topic->getLink() . $paged .'#reply-'. $this->id;
     }
 
     /**

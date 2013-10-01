@@ -1,6 +1,7 @@
 <?php namespace ScubaClick\Forums\Repositories\Eloquent;
 
 use Input;
+use Config;
 use ScubaClick\Forums\Models\Forum;
 use ScubaClick\Forums\Contracts\ForumsInterface;
 
@@ -9,10 +10,10 @@ class ForumsRepository implements ForumsInterface
     /**
      * {@inherit}
      */
-	public function get($perPage = 12)
+	public function get()
 	{
         return Forum::with('topics')
-            ->paginate($perPage);
+            ->paginate(Config::get('forums::per_page'));
 	}
 
     /**
@@ -26,10 +27,10 @@ class ForumsRepository implements ForumsInterface
     /**
      * {@inherit}
      */
-	public function trashed($perPage = 12)
+	public function trashed()
 	{
         return Forum::onlyTrashed()
-            ->paginate($perPage);
+            ->paginate(Config::get('forums::per_page'));
 	}
 
     /**

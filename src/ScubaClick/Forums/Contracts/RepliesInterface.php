@@ -5,36 +5,32 @@ interface RepliesInterface
     /**
      * Get all replies for a listing
      *
-     * @param int $perPage
      * @return Illuminate\Database\Eloquent\Collection
      */
-	public function get($perPage = 12);
+	public function get();
 
     /**
      * Get all replies for a topic
      *
      * @param object $topic
-     * @param int $perPage
      * @return Illuminate\Database\Eloquent\Collection
      */
-    public function getForTopic($topic, $perPage = 12);
+    public function getForTopic($topic);
 
     /**
      * Get all replies for a topic
      *
      * @param object $topic
-     * @param int $perPage
      * @return Illuminate\Database\Eloquent\Collection
      */
-    public function getForFeed($topic, $perPage = 12);
+    public function getForFeed($topic);
 
     /**
      * Get all trashed replies
      *
-     * @param int $perPage
      * @return Illuminate\Database\Eloquent\Collection
      */
-	public function trashed($perPage = 12);
+	public function trashed();
 
     /**
      * Finally delete a reply

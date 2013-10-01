@@ -5,10 +5,9 @@ interface ForumsInterface
     /**
      * Get all forums for a listing
      *
-     * @param int $perPage
      * @return Illuminate\Database\Eloquent\Collection
      */
-	public function get($perPage = 12);
+	public function get();
 
     /**
      * Get a forum by slug
@@ -21,10 +20,9 @@ interface ForumsInterface
     /**
      * Get all trashed forums
      *
-     * @param int $perPage
      * @return Illuminate\Database\Eloquent\Collection
      */
-	public function trashed($perPage = 12);
+	public function trashed();
 
     /**
      * Finally delete a forum
