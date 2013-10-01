@@ -9,6 +9,8 @@
 			in <a href="{{{ $topic->forum->getLink() }}}">{{{ $topic->forum->title }}}</a>
 		@endif
 
+		@include('forums::front._partials.pagination')
+
 		<div class="forum-meta">
 			<p>by {{{ $topic->user->getFullName() }}}</p>
 		</div>

@@ -7,7 +7,9 @@ use Input;
 use Config;
 use Request;
 use Purifier;
+use Paginator;
 use Illuminate\Support\Str;
+use ScubaClick\Forums\Pagination\Presenter;
 use ScubaClick\Feeder\Contracts\FeedInterface;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
@@ -227,6 +229,31 @@ class Topic extends Model implements FeedInterface
     public function hasLabels()
     {
         return $this->labels->count() > 0;
+    }
+
+    /**
+     * Determine if the topic is paged
+     *
+     * @return boolean
+     */
+    public function isPaged()
+    {
+        return $this->replies->count() > Config::get('forums::per_page');
+    }
+
+    /**
+     * Get the mini pagination
+     *
+     * @return string
+     */
+    public function getMiniPagination()
+    {
+        $items = $this->replies;
+
+        $paginator = Paginator::make($items->toArray(), $items->count(), Config::get('forums::per_page'));
+        $paginator->setBaseUrl($this->getLink());
+
+        return with(new Presenter($paginator))->render();
     }
 
     /**
