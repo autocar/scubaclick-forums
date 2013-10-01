@@ -178,14 +178,13 @@ class FrontController extends BaseController
     /**
      * Display a feed of replies
      *
-     * @param  string $forumSlug 
-     * @param  string $topicSlug
+     * @param  string $topicId
      * @param  string $feed
      * @return Response
      */
-    public function repliesFeed($forumSlug, $topicSlug, $feed)
+    public function repliesFeed($topicId, $feed)
     {
-        $topic   = $this->topics->findBySlug($topicSlug, $forumSlug);
+        $topic   = $this->topics->findOrFail($topicId);
         $replies = $this->replies->getForFeed($topic);
 
         return $this->feeder

@@ -15,14 +15,13 @@ Route::get('/tag/{label}', array(
 ))
 ->where('label', '[a-z-]+');
 
-Route::get('/{forum}/{topic}/{feed}', array(
+Route::get('/topic/{id}/{feed}', array(
     'as'   => $prefix .'forum.front.topic.feed',
     'uses' => '\\ScubaClick\\Forums\\Controllers\\FrontController@repliesFeed',
 ))
 ->where(array(
-    'forum' => '[a-z-]+',
-    'topic' => '[a-z-]+',
-    'feed'  => 'rss.xml|atom.xml|feed.json'
+    'id'   => '[0-9]+',
+    'feed' => 'rss.xml|atom.xml|feed.json'
 ));
 
 Route::get('/{forum}/{topic}', array(

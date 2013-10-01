@@ -39,6 +39,28 @@
 		.topic-tags {
 			margin-top:10px;
 		}
+
+		.forum-topic-permalink {
+			margin-right:5px;
+		}
+
+		.mini-pagination {
+			display:inline-block;
+			margin:0;
+			position:relative;
+			top:4px;
+
+			li {
+				padding:0;
+
+				a,
+				span {
+					padding:2px 4px;
+					font-size:10px;
+					line-height: 12px;
+				}
+			}
+		}
 	}
 
 	.forum-header {
@@ -66,7 +88,7 @@
 	}
 
 	.forum-topic-info {
-		width:30%;
+		width:35%;
 	}
 
 	.forum-topic-view-count,
@@ -93,7 +115,7 @@
 	}
 
 	.forum-topic-freshness {
-		width:25%;
+		width:20%;
 	}
 
 	.forum-meta {
@@ -147,6 +169,10 @@
 			@include border-radius(0);
 			margin-left: -1px;
 			margin-right: -1px;
+		}
+
+		.forum-topic-permalink {
+			margin-right:0;
 		}
 
 		.forum-topic-reopenlink,

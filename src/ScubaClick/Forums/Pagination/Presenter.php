@@ -81,7 +81,7 @@ class Presenter
      */
     public function getFinish()
     {
-        $content = $this->getPageRange($this->lastPage - 2, $this->lastPage);
+        $content = $this->getPageRange($this->lastPage - 1, $this->lastPage);
 
         return $this->getDots() . $content;
     }
