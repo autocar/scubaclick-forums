@@ -1,24 +1,24 @@
 <div class="control-group">
-	{{ Form::label('title', 'Title', ['req' => true, 'class' => 'control-label']) }}
+	{{ Form::label('title', 'Title', array('req' => true, 'class' => 'control-label')) }}
 	<div class="controls">
 	    {{ $errors->first('title') }}
-	    {{ Form::text('title', null, ['class' => 'span8']) }}
+	    {{ Form::text('title', null, array('class' => 'span8')) }}
 	</div>
 </div>
 
 <div class="control-group">
-	{{ Form::label('content', 'Content', ['req' => true, 'class' => 'control-label']) }}
+	{{ Form::label('content', 'Content', array('req' => true, 'class' => 'control-label')) }}
 	<div class="controls">
 	    {{ $errors->first('content') }}
-	    {{ Form::textarea('content', null, ['class' => 'span8 wysiwyg', 'rows' => 7]) }}
+	    {{ Form::textarea('content', null, array('class' => 'span8 wysiwyg', 'rows' => 7)) }}
 	</div>
 </div>
 
 <div class="control-group">
-	{{ Form::label('labels', 'Tags', ['class' => 'control-label']) }}
+	{{ Form::label('labels', 'Tags', array('class' => 'control-label')) }}
 	<div class="controls">
 	    {{ $errors->first('labels') }}
-	    {{ Form::text('labels', null, ['class' => 'span8']) }}
+        {{ Form::hidden('labels', $labels, array('id' => 'tags', 'class' => 'span8')) }}
 	</div>
 </div>
 

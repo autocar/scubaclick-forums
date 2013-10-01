@@ -66,8 +66,13 @@ class FrontController extends BaseController
         $forum  = $this->forums->findBySlug($forumSlug);
         $topics = $this->topics->getForForum($forum);
 
+        $labels    = '';
+        $allLabels = $this->labels->toJson();
+
         $this->layout->content = View::make(Config::get('forums::templates.topics'), compact(
             'topics',
+            'labels',
+            'allLabels',
             'forum'
         ));
     }
@@ -202,9 +207,13 @@ class FrontController extends BaseController
     public function editTopic($forumSlug, $topicSlug)
     {
         $topic = $this->topics->findBySlug($topicSlug, $forumSlug);
+        $labels    = implode(',', $topic->labels()->lists('title'));
+        $allLabels = $this->labels->toJson();
 
         $this->layout->content = View::make(Config::get('forums::templates.edit_topic'), compact(
-            'topic'
+            'topic',
+            'labels',
+            'allLabels'
         ));
     }
 

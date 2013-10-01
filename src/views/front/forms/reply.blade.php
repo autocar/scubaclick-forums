@@ -1,8 +1,8 @@
 <div class="control-group">
-	{{ Form::label('content', 'Content', ['req' => true, 'class' => 'control-label']) }}
+	{{ Form::label('content', 'Content', array('req' => true, 'class' => 'control-label')) }}
 	<div class="controls">
 	    {{ $errors->first('content') }}
-	    {{ Form::textarea('content', null, ['class' => 'span8 wysiwyg', 'rows' => 7]) }}
+	    {{ Form::textarea('content', null, array('class' => 'span8 wysiwyg', 'rows' => 7)) }}
 	</div>
 </div>
 
