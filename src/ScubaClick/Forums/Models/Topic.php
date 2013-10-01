@@ -104,7 +104,7 @@ class Topic extends Model implements FeedInterface
      *
      * @param  string $slug
      * @param  mixed  $forum
-     * @return string
+     * @return object
      */
     public static function findBySlug($slug, $forum)
     {
@@ -218,6 +218,16 @@ class Topic extends Model implements FeedInterface
         if(count($labelIds) > 0) {
             $this->labels()->sync($labelIds);
         }
+    }
+
+    /**
+     * Determine if the topic has any labelss attached
+     *
+     * @return boolean
+     */
+    public function hasLabels()
+    {
+        return $this->labels->count() > 0;
     }
 
     /**
@@ -351,6 +361,16 @@ class Topic extends Model implements FeedInterface
         return View::make('forums::front._partials.freshness', compact(
             'post'
         ))->render();
+    }
+
+    /**
+     * Check if the topic has been edited
+     *
+     * @return boolean
+     */
+    public function wasEdited()
+    {
+        return $this->updated_at->gt($this->created_at);
     }
 
     /**

@@ -147,6 +147,16 @@ class Reply extends Model implements FeedInterface
     }
 
     /**
+     * Check if the topic has been edited
+     *
+     * @return boolean
+     */
+    public function wasEdited()
+    {
+        return $this->updated_at->gt($this->created_at);
+    }
+
+    /**
      * {@inherit}
      */
     public function getFeedItem()

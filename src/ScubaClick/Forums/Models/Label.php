@@ -1,7 +1,9 @@
 <?php namespace ScubaClick\Forums\Models;
 
 use DB;
+use URL;
 use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class Label extends Model
 {
@@ -60,6 +62,26 @@ class Label extends Model
     }
 
     /**
+     * Get a label by its slug
+     *
+     * @param  string $slug
+     * @return object
+     */
+    public static function findBySlug($slug)
+    {
+        $label = static::with('topics')
+            ->where('slug', $slug)
+            ->remember(5)
+            ->first();
+
+        if(is_null($label)) {
+            throw new ModelNotFoundException;
+        }
+
+        return $label;
+    }
+
+    /**
      * Connect the topics
      *
      * @return object
@@ -67,5 +89,17 @@ class Label extends Model
     public function topics()
     {
         return $this->belongsToMany('\\ScubaClick\\Forums\\Models\\Topic');
+    }
+
+    /**
+     * Get the link to the label archive
+     *
+     * @return string
+     */
+    public function getArchiveLink()
+    {
+        return URL::route($this->getRoutePrefix() .'forum.front.label.archive', array(
+            'label' => $this->slug,
+        ));
     }
 }

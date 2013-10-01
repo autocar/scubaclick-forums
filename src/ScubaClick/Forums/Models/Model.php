@@ -103,6 +103,7 @@ class Model extends Eloquent
     /**
      * Get the route prefix
      *
+     * @todo Moe this somewhere. Really shouldn't be here...
      * @return string
      */
     public function getRoutePrefix()

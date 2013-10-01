@@ -5,6 +5,10 @@
 			{{{ $topic->title }}}
 		</a>
 
+		@if(isset($label))
+			in <a href="{{{ $topic->forum->getLink() }}}">{{{ $topic->forum->title }}}</a>
+		@endif
+
 		<div class="forum-meta">
 			<p>by {{{ $topic->user->getFullName() }}}</p>
 		</div>

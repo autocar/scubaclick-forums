@@ -1,5 +1,20 @@
 <?php
 
+Route::get('/tag/{label}/{feed}', array(
+    'as'   => $prefix .'forum.front.label.feed',
+    'uses' => '\\ScubaClick\\Forums\\Controllers\\FrontController@labelArchiveFeed',
+))
+->where(array(
+    'label' => '[a-z-]+',
+    'feed'  => 'rss.xml|atom.xml|feed.json'
+));
+
+Route::get('/tag/{label}', array(
+    'as'   => $prefix .'forum.front.label.archive',
+    'uses' => '\\ScubaClick\\Forums\\Controllers\\FrontController@labelArchive',
+))
+->where('label', '[a-z-]+');
+
 Route::get('/{forum}/{topic}/{feed}', array(
     'as'   => $prefix .'forum.front.topic.feed',
     'uses' => '\\ScubaClick\\Forums\\Controllers\\FrontController@repliesFeed',

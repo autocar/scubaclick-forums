@@ -1,4 +1,4 @@
-<ul id="forum-{{{ $forum->id }}}" class="forums topics">
+<ul id="forum-label-archive" class="forums topics">
 	<li class="forum-header">
 		<ul class="forum-lego">
 			<li class="forum-topic-info">Topic</li>
@@ -21,12 +21,3 @@
 		{{ $topics->links() }}
 	</li>
 </ul>
-
-@if($forum->currentUserCanPost())
-	{{ Form::open(array('route' => array($forum->getRoutePrefix() .'forum.front.forum.topic', $forum->slug), 'id' => 'new-topic', 'class' => 'form-horizontal forum-form')) }}
-		<h3>Add a Topic</h3>
-		@include('forums::front.forms.topic')
-	{{ Form::close() }}
-@else
-	<div class="alert alert-error">You are not allowed to create a topic in this forum.</div>
-@endif

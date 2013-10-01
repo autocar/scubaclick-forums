@@ -16,6 +16,35 @@ class LabelsRepository implements LabelsInterface
     /**
      * {@inheritdoc}
      */
+    public function findBySlug($slug)
+    {
+        return Label::findBySlug($slug);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getTopics($label, $perPage = 12)
+    {
+        return $label->topics()
+            ->with('forum')
+            ->paginate($perPage);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getTopicFeed($label, $perPage = 12)
+    {
+        return $label->topics()
+            ->orderBy('created_at', 'desc')
+            ->take($perPage)
+            ->get();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
 	public function toJson()
 	{
 		return json_encode(Label::lists('title'));

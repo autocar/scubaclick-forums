@@ -18,6 +18,10 @@
 		</li>
 		<li class="forum-reply-content">
 			{{ $topic->content }}
+
+			@if($topic->wasEdited())
+				<p class="last-edited">Last edited on {{{ $topic->updated_at->format('l, F j, Y H:i') }}}</p>
+			@endif
 		</li>
 	</ul>
 </div>

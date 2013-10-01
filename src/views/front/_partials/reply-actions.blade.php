@@ -2,7 +2,7 @@
 	@if(Auth::user()->id == $reply->user_id)
 		<a href="{{{ $reply->getEditLink() }}}" title="Edit {{{ $reply->getTitle() }}}" class="btn btn-mini btn-info forum-reply-editlink">Edit</a>
 
-		{{ Form::open(array('route' => array($reply->getRoutePrefix() .'forum.front.reply.delete', $reply->topic->forum->slug, $reply->topic->slug))) }}
+		{{ Form::open(array('route' => array($reply->getRoutePrefix() .'forum.front.reply.delete', $reply->topic->forum->slug, $reply->topic->slug, $reply->id))) }}
 		<button title="Delete {{{ $reply->getTitle() }}}" class="btn btn-mini btn-warning forum-reply-deletelink">
 			Delete
 		</button>

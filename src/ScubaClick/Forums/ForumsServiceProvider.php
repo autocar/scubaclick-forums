@@ -59,7 +59,12 @@ class ForumsServiceProvider extends ServiceProvider {
 			$topic = Topic::findBySlug(Request::segment(2), Request::segment(1));
 
 			if(!Str::contains(URL::previous(), $topic->getLink())) {
+				// prevent the timestamps from getting updated
+				$topic->timestamps = false;
+
         		$topic->increment('views');
+
+				$topic->timestamps = true;
         	}
         });
 	}

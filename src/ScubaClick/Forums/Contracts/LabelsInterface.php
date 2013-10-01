@@ -5,9 +5,36 @@ interface LabelsInterface
     /**
      * Get paginated labels
      *
+     * @param int $perPage
      * @return array
      */
     public function get($perPage = 20);
+
+    /**
+     * Get a label by its slug
+     *
+     * @param string $slug
+     * @return Illuminate\Database\Eloquent\Model
+     */
+    public function findBySlug($slug);
+
+    /**
+     * Get topics for a label
+     *
+     * @param object $label
+     * @param int $perPage
+     * @return Illuminate\Database\Eloquent\Collection
+     */
+    public function getTopics($label, $perPage = 12);
+
+    /**
+     * Get topics for a label feed
+     *
+     * @param object $label
+     * @param int $perPage
+     * @return Illuminate\Database\Eloquent\Collection
+     */
+    public function getTopicFeed($label, $perPage = 12);
 
     /**
      * Get all label titles as a json array
