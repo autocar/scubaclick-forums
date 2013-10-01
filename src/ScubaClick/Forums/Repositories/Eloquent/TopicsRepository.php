@@ -20,7 +20,18 @@ class TopicsRepository implements TopicsInterface
      */
     public function getForForum($forum, $perPage = 12)
     {
-        return $forum->topics()->paginate($perPage);
+        return $forum->topics()
+            ->paginate($perPage);
+    }
+
+    /**
+     * {@inherit}
+     */
+    public function getForFeed($forum, $perPage = 12)
+    {
+        return $forum->topics()
+            ->take($perPage)
+            ->get();
     }
 
     /**

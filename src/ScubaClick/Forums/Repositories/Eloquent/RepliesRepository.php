@@ -19,7 +19,18 @@ class RepliesRepository implements RepliesInterface
      */
     public function getForTopic($topic, $perPage = 12)
     {
-        return $topic->replies()->paginate($perPage);
+        return $topic->replies()
+            ->paginate($perPage);
+    }
+
+    /**
+     * {@inherit}
+     */
+    public function getForFeed($topic, $perPage = 12)
+    {
+        return $topic->replies()
+            ->take($perPage)
+            ->get();
     }
 
     /**

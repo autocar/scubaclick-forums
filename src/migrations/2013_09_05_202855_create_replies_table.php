@@ -30,7 +30,8 @@ class CreateRepliesTable extends Migration {
 
 			$table->foreign('topic_id')
 				->references('id')
-				->on('topics');
+				->on('topics')
+				->onDelete('cascade');
 
             $table->foreign('user_id')
             	->references('id')

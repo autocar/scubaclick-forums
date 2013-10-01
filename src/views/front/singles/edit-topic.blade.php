@@ -1,5 +1,5 @@
 @if($topic->currentUserCanEdit())
-	{{ Form::model($topic, array('method' => 'POST')) }}
+	{{ Form::model($topic, array('route' => array($topic->getRoutePrefix() .'forum.front.topic.edit.action', $topic->forum->slug, $topic->slug), 'class' => 'form-horizontal')) }}
 		@include('forums::front.forms.topic')
 	{{ Form::close() }}
 @else

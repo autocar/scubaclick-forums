@@ -20,6 +20,15 @@ interface RepliesInterface
     public function getForTopic($topic, $perPage = 12);
 
     /**
+     * Get all replies for a topic
+     *
+     * @param object $topic
+     * @param int $perPage
+     * @return Illuminate\Database\Eloquent\Collection
+     */
+    public function getForFeed($topic, $perPage = 12);
+
+    /**
      * Get all trashed replies
      *
      * @param int $perPage

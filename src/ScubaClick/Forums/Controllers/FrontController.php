@@ -1,8 +1,11 @@
 <?php namespace ScubaClick\Forums\Controllers;
 
+use App;
 use View;
+use Input;
 use Config;
 use Request;
+use Redirect;
 use BaseController;
 use ScubaClick\Forums\Contracts\TopicsInterface;
 use ScubaClick\Forums\Contracts\ForumsInterface;
@@ -27,6 +30,8 @@ class FrontController extends BaseController
         $this->forums  = $forums;
         $this->topics  = $topics;
         $this->replies = $replies;
+
+        $this->feeder = App::make('feeder');
 
         $this->layout = Config::get('forums::templates.layout');
 
@@ -53,12 +58,8 @@ class FrontController extends BaseController
      * @param  string $forumSlug
      * @return void
      */
-    public function topics()
+    public function topics($forumSlug)
     {
-        $args = func_get_args();
-
-        $forumSlug = $this->hasSubdomain($args, 1) ? $args[1] : $args[0];
-
         $forum  = $this->forums->findBySlug($forumSlug);
         $topics = $this->topics->getForForum($forum);
 
@@ -71,52 +72,65 @@ class FrontController extends BaseController
     /**
      * Post a new topic to a forum
      *
-     * @param  string $account
      * @param  string $forumSlug 
-     * @return void
+     * @return Redirect
      */
-    public function postTopic()
+    public function postTopic($forumSlug)
     {
-        $args = func_get_args();
+        $forum  = $this->forums->findBySlug($forumSlug);
 
-        $forumSlug = $this->hasSubdomain($args, 1) ? $args[1] : $args[0];
+        $input = Input::all();
+        
+        if(!Input::has('status')) {
+            $input['status'] = 'open';
+        }
 
+        $input['forum_id'] = $forum->id;
+
+        $topic = $this->topics->create($input);
+
+        if ($topic->isSaved()) {
+            return Redirect::to($topic->getLink())
+                ->with('flash_success', 'Topic has been saved.');
+
+        } else {
+            return Redirect::back()
+                ->withErrors($topic->getErrors())
+                ->withInput();
+        }
     }
 
     /**
      * Display a feed of topics
      *
-     * @param  string $account
      * @param  string $forumSlug 
      * @param  string $feed
      * @return Response
      */
-    public function topicsFeed()
+    public function topicsFeed($forumSlug, $feed)
     {
-        $args         = func_get_args();
-        $hasSubdomain = $this->hasSubdomain($args, 2);
+        $forum  = $this->forums->findBySlug($forumSlug);
+        $topics = $this->topics->getForFeed($forum);
 
-        $forumSlug = $hasSubdomain ? $args[1] : $args[0];
-        $feed      = $hasSubdomain ? $args[2] : $args[1];
-
+        return $this->feeder
+            ->setChannel([
+                'title'       => $forum->title,
+                'description' => $forum->content,
+            ])
+            ->setFormat($feed)
+            ->setItems($topics)
+            ->fetch();
     }
 
     /**
      * Display a listing of replies for a single topic
      *
-     * @param  string $account
      * @param  string $forumSlug 
      * @param  string $topicSlug
      * @return void
      */
-    public function replies()
+    public function replies($forumSlug, $topicSlug)
     {
-        $args         = func_get_args();
-        $hasSubdomain = $this->hasSubdomain($args, 2);
-
-        $forumSlug = $hasSubdomain ? $args[1] : $args[0];
-        $topicSlug = $hasSubdomain ? $args[2] : $args[1];
-
         $topic   = $this->topics->findBySlug($topicSlug, $forumSlug);
         $replies = $this->replies->getForTopic($topic);
 
@@ -129,50 +143,153 @@ class FrontController extends BaseController
     /**
      * Post a new reply to a topic
      *
-     * @param  string $account
      * @param  string $forumSlug 
      * @param  string $topicSlug
-     * @return Response
+     * @return Redirect
      */
-    public function postReply()
+    public function postReply($forumSlug, $topicSlug)
     {
-        $args         = func_get_args();
-        $hasSubdomain = $this->hasSubdomain($args, 2);
+        $topic = $this->topics->findBySlug($topicSlug, $forumSlug);
 
-        $forumSlug = $hasSubdomain ? $args[1] : $args[0];
-        $topicSlug = $hasSubdomain ? $args[2] : $args[1];
+        $input = Input::all();
+        $input['topic_id'] = $topic->id;
 
+        $reply = $this->replies->create($input);
+
+        if ($reply->isSaved()) {
+            return Redirect::to($reply->getLink())
+                ->with('flash_success', 'Reply has been saved.');
+
+        } else {
+            return Redirect::back()
+                ->withErrors($reply->getErrors())
+                ->withInput();
+        }
     }
 
     /**
      * Display a feed of replies
      *
-     * @param  string $account
      * @param  string $forumSlug 
      * @param  string $topicSlug
      * @param  string $feed
      * @return Response
      */
-    public function repliesFeed()
+    public function repliesFeed($forumSlug, $topicSlug, $feed)
     {
-        $args         = func_get_args();
-        $hasSubdomain = $this->hasSubdomain($args, 3);
+        $topic   = $this->topics->findBySlug($topicSlug, $forumSlug);
+        $replies = $this->replies->getForFeed($topic);
 
-        $forumSlug = $hasSubdomain ? $args[1] : $args[0];
-        $topicSlug = $hasSubdomain ? $args[2] : $args[1];
-        $feed      = $hasSubdomain ? $args[3] : $args[2];
-
+        return $this->feeder
+            ->setChannel([
+                'title'       => $topic->title,
+                'description' => $topic->content,
+            ])
+            ->setFormat($feed)
+            ->setItems($replies)
+            ->fetch();
     }
 
     /**
-     * Check if a subdomain argument has been passed in
+     * Show the form to edit a topic
      *
-     * @param  array $args
-     * @param  int $compare 
-     * @return boolean
+     * @param  string $account
+     * @param  string $forumSlug 
+     * @param  string $topicSlug
      */
-    protected function hasSubdomain($args, $compare)
+    protected function editTopic($forumSlug, $topicSlug)
     {
-        return (count($args) - (int) $compare) == 1;
+        $topic = $this->topics->findBySlug($topicSlug, $forumSlug);
+
+        $this->layout->content = View::make(Config::get('forums::templates.edit_topic'), compact(
+            'topic'
+        ));
+    }
+
+    /**
+     * Edit a topic
+     *
+     * @param  string $account
+     * @param  string $forumSlug 
+     * @param  string $topicSlug
+     */
+    protected function editTopicAction($forumSlug, $topicSlug)
+    {
+        $topic = $this->topics->findBySlug($topicSlug, $forumSlug);
+    }
+
+    /**
+     * Delete a topic
+     *
+     * @param  string $forumSlug 
+     * @param  string $topicSlug
+     */
+    protected function deleteTopic($forumSlug, $topicSlug)
+    {
+        $topic = $this->topics->delete($topicSlug, $forumSlug);
+    }
+
+    /**
+     * Resolve a topic
+     *
+     * @param  string $forumSlug 
+     * @param  string $topicSlug
+     */
+    protected function resolveTopic($forumSlug, $topicSlug)
+    {
+        $topic = $this->topics->findBySlug($topicSlug, $forumSlug);
+    }
+
+    /**
+     * Reopen a topic
+     *
+     * @param  string $forumSlug 
+     * @param  string $topicSlug
+     */
+    protected function reopenTopic($forumSlug, $topicSlug)
+    {
+        $topic = $this->topics->findBySlug($topicSlug, $forumSlug);
+    }
+
+    /**
+     * Show the edit reply form
+     *
+     * @param  string $account
+     * @param  string $forumSlug 
+     * @param  string $topicSlug
+     * @param  int $replyId
+     */
+    public function editReply($forumSlug, $topicSlug, $replyId)
+    {
+        $reply = $this->replies->findOrFail($replyId);
+
+        $this->layout->content = View::make(Config::get('forums::templates.edit_reply'), compact(
+            'reply'
+        ));
+    }
+
+    /**
+     * Edit a reply
+     *
+     * @param  string $forumSlug 
+     * @param  string $topicSlug
+     * @param  int $replyId
+     */
+    public function editReplyAction($forumSlug, $topicSlug, $replyId)
+    {
+        $reply = $this->replies->update($replyId);
+    }
+
+    /**
+     * Delete a reply
+     *
+     * @param  string $account
+     * @param  string $forumSlug 
+     * @param  string $topicSlug
+     * @param  int $replyId
+     */
+    protected function deleteReply($forumSlug, $topicSlug, $replyId)
+    {
+        $reply = $this->replies->delete($replyId);
     }
 }

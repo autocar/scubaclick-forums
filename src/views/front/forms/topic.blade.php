@@ -10,7 +10,15 @@
 	{{ Form::label('content', 'Content', ['req' => true, 'class' => 'control-label']) }}
 	<div class="controls">
 	    {{ $errors->first('content') }}
-	    {{ Form::textarea('content', null, ['class' => 'span8', 'rows' => 7]) }}
+	    {{ Form::textarea('content', null, ['class' => 'span8 wysiwyg', 'rows' => 7]) }}
+	</div>
+</div>
+
+<div class="control-group">
+	{{ Form::label('labels', 'Tags', ['class' => 'control-label']) }}
+	<div class="controls">
+	    {{ $errors->first('labels') }}
+	    {{ Form::text('labels', null, ['class' => 'span8']) }}
 	</div>
 </div>
 

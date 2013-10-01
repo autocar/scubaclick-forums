@@ -20,6 +20,15 @@ interface TopicsInterface
     public function getForForum($forum, $perPage = 12);
 
     /**
+     * Get all topics in a forum for a feed
+     *
+     * @param object $forum
+     * @param int $perPage
+     * @return Illuminate\Database\Eloquent\Collection
+     */
+    public function getForFeed($forum, $perPage = 12);
+
+    /**
      * Get a topic by slug
      *
      * @param string $slug

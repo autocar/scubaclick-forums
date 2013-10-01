@@ -26,7 +26,7 @@ class CreateForumsTable extends Migration {
 			$table->text('content');
 			$table->string('slug', 255);
 			$table->enum('status', [
-				'active', 
+				'open', 
 				'closed', 
 			]);
 			$table->softDeletes();

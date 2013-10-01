@@ -1,5 +1,8 @@
 <ul id="forum-{{{ $forum->id }}}" class="forum-lego">
 	<li class="forum-info">
+		@if($forum->status == 'closed')
+			<span class="label label-important">Closed</span>
+		@endif
 		<a class="forum-title" href="{{{ $forum->getLink() }}}" title="{{{ $forum->title }}}">
 			{{{ $forum->title }}}
 		</a>

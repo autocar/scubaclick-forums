@@ -44,11 +44,11 @@ class Forum extends Model
         'title'   => 'required|min:3',
         'content' => 'required|min:8',
         'slug'    => 'required|min:3',
-        'status'  => 'required|in:active,closed'
+        'status'  => 'required|in:open,closed'
 	);
 
    /**
-     * Listen for save event
+     * Listen for save/deleted/restored events
      */
     protected static function boot()
     {
@@ -119,23 +119,15 @@ class Forum extends Model
     }
 
     /**
-     * Can the forum be viewed
-     *
-     * @return boolean
-     */
-    public function isViewable()
-    {
-        return $this->status == 'active';
-    }
-
-    /**
      * Get the forum frontend link
      *
      * @return boolean
      */
     public function getLink()
     {
-        return URL::to('/'. $this->slug);
+        return URL::route($this->getRoutePrefix() .'forum.front.forum', array(
+            'forum' => $this->slug,
+        ));
     }
 
     /**
@@ -180,7 +172,7 @@ class Forum extends Model
         }
 
         // backup
-        return Auth::check();
+        return Auth::check() && $this->status != 'closed';
     }
     /**
      * Get the freshness of the forum

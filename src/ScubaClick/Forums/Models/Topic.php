@@ -57,7 +57,7 @@ class Topic extends Model implements FeedInterface
 	);
 
    /**
-     * Listen for save event
+     * Listen for save/deleted/restored events
      */
     protected static function boot()
     {
@@ -235,23 +235,29 @@ class Topic extends Model implements FeedInterface
     }
 
     /**
-     * Can the topic be viewed
-     *
-     * @return boolean
-     */
-    public function isViewable()
-    {
-        return is_null($this->deleted_at);
-    }
-
-    /**
      * Get the topic frontend link
      *
      * @return boolean
      */
     public function getLink()
     {
-        return URL::to('/'. $this->forum->slug .'/'. $this->slug);
+        return URL::route($this->getRoutePrefix() .'forum.front.topic', array(
+            'forum' => $this->forum->slug,
+            'topic' => $this->slug,
+        ));
+    }
+
+    /**
+     * Get the topic frontend edit link
+     *
+     * @return boolean
+     */
+    public function getEditLink()
+    {
+        return URL::route($this->getRoutePrefix() .'forum.front.topic.edit', array(
+            'forum' => $this->forum->slug,
+            'topic' => $this->slug,
+        ));
     }
 
     /**
@@ -268,7 +274,7 @@ class Topic extends Model implements FeedInterface
         }
 
         // backup
-        return Auth::check();
+        return Auth::check()&& $this->forum->status != 'closed';
     }
 
     /**
@@ -311,7 +317,10 @@ class Topic extends Model implements FeedInterface
      */
     public function getVoices()
     {
-        return count(array_unique(array_pluck($this->replies->toArray(), 'user_id')));
+        $userIds = array_pluck($this->replies->toArray(), 'user_id');
+        $userIds[] = $this->user_id;
+
+        return count(array_unique($userIds));
     }
 
     /**

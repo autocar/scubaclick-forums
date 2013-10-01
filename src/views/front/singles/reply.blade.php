@@ -8,7 +8,7 @@
 				{{{ $reply->created_at->format('l, F j, Y H:i') }}}
 			</span>
 
-			<a href="{{{ $reply->getLink() }}}" title="{{{ $reply->getTitle() }}}" class="forum-reply-permalink">#</a>
+			@include('forums::front._partials.reply-actions')
 		</li>
 	</ul>
 	<ul class="forum-reply-body forum-lego">

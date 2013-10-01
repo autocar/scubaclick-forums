@@ -38,7 +38,8 @@ class CreateTopicsTable extends Migration {
 
 			$table->foreign('forum_id')
 				->references('id')
-				->on('forums');
+				->on('forums')
+				->onDelete('cascade');
 
             $table->foreign('user_id')
             	->references('id')

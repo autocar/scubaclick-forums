@@ -14,7 +14,8 @@
 </ul>
 
 @if($topic->currentUserCanReply())
-	{{ Form::open(array('method' => 'POST', 'class' => 'form-horizontal forum-form')) }}
+	{{ Form::open(array('route' => array($topic->getRoutePrefix() .'forum.front.topic.reply', $topic->forum->slug, $topic->slug), 'class' => 'form-horizontal forum-form')) }}
+		<h3>Add your Voice</h3>
 		@include('forums::front.forms.reply')
 	{{ Form::close() }}
 @else

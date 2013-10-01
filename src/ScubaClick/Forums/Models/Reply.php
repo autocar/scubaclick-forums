@@ -1,5 +1,6 @@
 <?php namespace ScubaClick\Forums\Models;
 
+use URL;
 use Auth;
 use Config;
 use Request;
@@ -112,16 +113,6 @@ class Reply extends Model implements FeedInterface
     }
 
     /**
-     * Can the reply be viewed
-     *
-     * @return boolean
-     */
-    public function isViewable()
-    {
-        return $this->topic->isViewable();
-    }
-
-    /**
      * Get the reply title
      *
      * @return boolean
@@ -134,11 +125,25 @@ class Reply extends Model implements FeedInterface
     /**
      * Get the reply frontend link
      *
-     * @return boolean
+     * @return string
      */
     public function getLink()
     {
         return $this->topic->getLink() .'#reply-'. $this->id;
+    }
+
+    /**
+     * Get the reply frontend edit link
+     *
+     * @return string
+     */
+    public function getEditLink()
+    {
+        return URL::route($this->getRoutePrefix() .'forum.front.reply.edit', array(
+            'forum' => $this->topic->forum->slug,
+            'topic' => $this->topic->slug,
+            'id'    => $this->id,
+        ));
     }
 
     /**

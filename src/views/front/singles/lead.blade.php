@@ -9,7 +9,7 @@
 				{{{ $topic->created_at->format('l, F j, Y H:i') }}}
 			</span>
 
-			<a href="{{{ $topic->getLink() }}}" title="{{{ $topic->title }}}" class="forum-reply-permalink">#</a>
+			@include('forums::front._partials.lead-actions')
 		</li>
 	</ul>
 	<ul class="forum-reply-body forum-lego">

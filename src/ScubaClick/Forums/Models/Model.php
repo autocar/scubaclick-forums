@@ -1,6 +1,7 @@
 <?php namespace ScubaClick\Forums\Models;
 
 use DB;
+use Request;
 use Validator;
 use Illuminate\Support\Str;
 use Illuminate\Support\MessageBag;
@@ -97,5 +98,21 @@ class Model extends Eloquent
         }
 
         return $slug;
+    }
+
+    /**
+     * Get the route prefix
+     *
+     * @return string
+     */
+    public function getRoutePrefix()
+    {
+        $chunks = explode('.', parse_url(Request::root(), PHP_URL_HOST));
+
+        if(count($chunks) == 3 && $chunks[0] != 'www') {
+            return $chunks[0] .'.';
+        }
+
+        return '';
     }
 }
