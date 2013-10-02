@@ -99,21 +99,4 @@ class Model extends Eloquent
 
         return $slug;
     }
-
-    /**
-     * Get the route prefix
-     *
-     * @todo Moe this somewhere. Really shouldn't be here...
-     * @return string
-     */
-    public function getRoutePrefix()
-    {
-        $chunks = explode('.', parse_url(Request::root(), PHP_URL_HOST));
-
-        if(count($chunks) == 3 && $chunks[0] != 'www') {
-            return $chunks[0] .'.';
-        }
-
-        return '';
-    }
 }

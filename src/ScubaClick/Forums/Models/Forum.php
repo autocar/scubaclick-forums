@@ -124,7 +124,7 @@ class Forum extends Model
      */
     public function getLink()
     {
-        return URL::route($this->getRoutePrefix() .'forum.front.forum', array(
+        return URL::route(get_route_prefix() .'forum.front.forum', array(
             'forum' => $this->slug,
         ));
     }

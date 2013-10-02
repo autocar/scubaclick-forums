@@ -1,5 +1,10 @@
 <?php
 
+Route::get('/search', array(
+    'as'   => $prefix .'forum.front.search',
+    'uses' => '\\ScubaClick\\Forums\\Controllers\\FrontController@search',
+));
+
 Route::get('/tag/{label}/{feed}', array(
     'as'   => $prefix .'forum.front.label.feed',
     'uses' => '\\ScubaClick\\Forums\\Controllers\\FrontController@labelArchiveFeed',

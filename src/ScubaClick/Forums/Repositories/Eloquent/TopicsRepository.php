@@ -21,6 +21,15 @@ class TopicsRepository implements TopicsInterface
     /**
      * {@inherit}
      */
+    public function search($term)
+    {
+        return Topic::search($term)
+            ->paginate(Config::get('forums::per_page'));
+    }
+
+    /**
+     * {@inherit}
+     */
     public function getForForum($forum)
     {
         return $forum->topics()

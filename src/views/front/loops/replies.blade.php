@@ -1,3 +1,10 @@
+<p class="forum-create">
+	<i class="icon-double-angle-right"></i>
+	<a href="#new-reply">Add a reply</a>
+</p>
+
+@include('forums::front._partials.searchform')
+
 <ul id="topic-{{{ $topic->id }}}-replies" class="forums replies">
 	<li class="forum-body">
 	@include('forums::front.singles.lead')
@@ -21,7 +28,7 @@
 </ul>
 
 @if($topic->currentUserCanReply())
-	{{ Form::open(array('route' => array($topic->getRoutePrefix() .'forum.front.topic.reply', $topic->forum->slug, $topic->slug), 'id' => 'new-reply', 'class' => 'form-horizontal forum-form')) }}
+	{{ Form::open(array('route' => array(get_route_prefix() .'forum.front.topic.reply', $topic->forum->slug, $topic->slug), 'id' => 'new-reply', 'class' => 'form-horizontal forum-form')) }}
 		<h3>Add your Voice</h3>
 		@include('forums::front.forms.reply')
 	{{ Form::close() }}

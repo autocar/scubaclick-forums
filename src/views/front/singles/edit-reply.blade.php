@@ -1,5 +1,5 @@
 @if($reply->currentUserCanEdit())
-	{{ Form::model($reply, array('route' => array($reply->getRoutePrefix() .'forum.front.reply.edit.action', $reply->topic->forum->slug, $reply->topic->slug, $reply->id), 'class' => 'form-horizontal forum-form')) }}
+	{{ Form::model($reply, array('route' => array(get_route_prefix() .'forum.front.reply.edit.action', $reply->topic->forum->slug, $reply->topic->slug, $reply->id), 'class' => 'form-horizontal forum-form')) }}
 		@include('forums::front.forms.reply')
 	{{ Form::close() }}
 @else

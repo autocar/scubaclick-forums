@@ -1,3 +1,5 @@
+@include('forums::front._partials.searchform')
+
 <ul class="forums">
 	<li class="forum-header">
 		<ul class="forum-lego">

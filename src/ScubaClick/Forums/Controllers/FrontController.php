@@ -56,6 +56,22 @@ class FrontController extends BaseController
     }
 
     /**
+     * Display a search listing of topics
+     *
+     * @return void
+     */
+    public function search()
+    {
+        $term   = urldecode(Input::get('term'));
+        $topics = $this->topics->search($term);
+
+        $this->layout->content = View::make(Config::get('forums::templates.search'), compact(
+            'term',
+            'topics'
+        ));
+    }
+
+    /**
      * Display a listing of topics for a single forum
      *
      * @param  string $forumSlug
@@ -368,7 +384,7 @@ class FrontController extends BaseController
         }
 
         if(!$topic->exists) {
-            return Redirect::route($topic->getRoutePrefix() .'forum.front.forum', array(
+            return Redirect::route(get_route_prefix() .'forum.front.forum', array(
                     'forum' => $forumSlug
                 ))
                 ->with('flash_success', 'Topic has been deleted.');

@@ -97,7 +97,7 @@ class Label extends Model
      */
     public function getArchiveLink()
     {
-        return URL::route($this->getRoutePrefix() .'forum.front.label.archive', array(
+        return URL::route(get_route_prefix() .'forum.front.label.archive', array(
             'label' => $this->slug,
         ));
     }

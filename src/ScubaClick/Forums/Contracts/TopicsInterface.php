@@ -10,6 +10,14 @@ interface TopicsInterface
 	public function get();
 
     /**
+     * Get all topics for a search term
+     *
+     * @param string $term
+     * @return Illuminate\Database\Eloquent\Collection
+     */
+    public function search($term);
+
+    /**
      * Get all topics in a forum
      *
      * @param object $forum

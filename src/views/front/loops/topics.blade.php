@@ -1,3 +1,10 @@
+<p class="forum-create">
+	<i class="icon-double-angle-right"></i>
+	<a href="#new-topic">Create new topic</a>
+</p>
+
+@include('forums::front._partials.searchform')
+
 <ul id="forum-{{{ $forum->id }}}" class="forums topics">
 	<li class="forum-header">
 		<ul class="forum-lego">
@@ -23,7 +30,7 @@
 </ul>
 
 @if($forum->currentUserCanPost())
-	{{ Form::open(array('route' => array($forum->getRoutePrefix() .'forum.front.forum.topic', $forum->slug), 'id' => 'new-topic', 'class' => 'form-horizontal forum-form')) }}
+	{{ Form::open(array('route' => array(get_route_prefix() .'forum.front.forum.topic', $forum->slug), 'id' => 'new-topic', 'class' => 'form-horizontal forum-form')) }}
 		<h3>Add a Topic</h3>
 		@include('forums::front.forms.topic')
 	{{ Form::close() }}

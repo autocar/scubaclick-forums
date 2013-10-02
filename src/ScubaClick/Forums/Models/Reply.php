@@ -155,7 +155,7 @@ class Reply extends Model implements FeedInterface
      */
     public function getEditLink()
     {
-        return URL::route($this->getRoutePrefix() .'forum.front.reply.edit', array(
+        return URL::route(get_route_prefix() .'forum.front.reply.edit', array(
             'forum' => $this->topic->forum->slug,
             'topic' => $this->topic->slug,
             'id'    => $this->id,

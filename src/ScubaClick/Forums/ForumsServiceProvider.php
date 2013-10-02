@@ -1,6 +1,7 @@
 <?php namespace ScubaClick\Forums;
 
 use URL;
+use Input;
 use Request;
 use Illuminate\Support\Str;
 use ScubaClick\Forums\Models\Topic;
@@ -66,6 +67,12 @@ class ForumsServiceProvider extends ServiceProvider {
 
 				$topic->timestamps = true;
         	}
+        });
+
+        $this->app['view']->composer('forums::front._partials.searchform', function($view) {
+            $view->with([
+                'term' => Input::has('term') ? Input::get('term') : '',
+            ]);
         });
 	}
 

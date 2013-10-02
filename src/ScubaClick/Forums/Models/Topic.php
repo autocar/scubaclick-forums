@@ -1,5 +1,6 @@
 <?php namespace ScubaClick\Forums\Models;
 
+use DB;
 use URL;
 use View;
 use Auth;
@@ -132,9 +133,12 @@ class Topic extends Model implements FeedInterface
     {
         $search = urldecode($search);
 
-        return $query->where('title', 'like', "%$search%")
-            ->orWhere('content', 'like', "%$search%")
-            ->orWhere('status', 'like', "%$search%");
+        return $query->distinct()
+            ->select('topics.*')
+            ->join('replies', 'topics.id', '=', 'replies.topic_id')
+            ->where('topics.content', 'like', "%$search%")
+            ->where('topics.title', 'like', "%$search%")
+            ->orWhere('replies.content', 'like', "%$search%");
     }
 
     /**
@@ -277,7 +281,7 @@ class Topic extends Model implements FeedInterface
      */
     public function getLink()
     {
-        return URL::route($this->getRoutePrefix() .'forum.front.topic', array(
+        return URL::route(get_route_prefix() .'forum.front.topic', array(
             'forum' => $this->forum->slug,
             'topic' => $this->slug,
         ));
@@ -290,7 +294,7 @@ class Topic extends Model implements FeedInterface
      */
     public function getEditLink()
     {
-        return URL::route($this->getRoutePrefix() .'forum.front.topic.edit', array(
+        return URL::route(get_route_prefix() .'forum.front.topic.edit', array(
             'forum' => $this->forum->slug,
             'topic' => $this->slug,
         ));
