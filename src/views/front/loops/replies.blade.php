@@ -1,8 +1,3 @@
-<p class="forum-create">
-	<i class="icon-double-angle-right"></i>
-	<a href="#new-reply">Add a reply</a>
-</p>
-
 @include('forums::front._partials.searchform')
 
 <ul id="topic-{{{ $topic->id }}}-replies" class="forums replies">

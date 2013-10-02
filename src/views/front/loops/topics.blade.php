@@ -1,8 +1,3 @@
-<p class="forum-create">
-	<i class="icon-double-angle-right"></i>
-	<a href="#new-topic">Create new topic</a>
-</p>
-
 @include('forums::front._partials.searchform')
 
 <ul id="forum-{{{ $forum->id }}}" class="forums topics">
