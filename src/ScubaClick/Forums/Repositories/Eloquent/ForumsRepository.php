@@ -110,7 +110,7 @@ class ForumsRepository implements ForumsInterface
      */
     public function getDropdown()
     {
-        $forums = Forum::where('status', 'active')->lists('title', 'id');
+        $forums = Forum::where('status', 'open')->lists('title', 'id');
 
         return array('' => '') + $forums;
     }

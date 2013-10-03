@@ -18,7 +18,7 @@ Route::get('/tag/{label}', array(
     'as'   => $prefix .'forum.front.label.archive',
     'uses' => '\\ScubaClick\\Forums\\Controllers\\FrontController@labelArchive',
 ))
-->where('label', '[a-z-]+');
+->where('label', '[0-9a-z-]+');
 
 Route::get('/topic/{id}/{feed}', array(
     'as'   => $prefix .'forum.front.topic.feed',
@@ -34,8 +34,8 @@ Route::get('/{forum}/{topic}', array(
     'uses' => '\\ScubaClick\\Forums\\Controllers\\FrontController@replies',
 ))
 ->where(array(
-    'forum' => '[a-z-]+',
-    'topic' => '[a-z-]+',
+    'forum' => '[0-9a-z-]+',
+    'topic' => '[0-9a-z-]+',
 ));
 
 Route::get('/{forum}/{topic}/edit', array(
@@ -43,8 +43,8 @@ Route::get('/{forum}/{topic}/edit', array(
     'uses' => '\\ScubaClick\\Forums\\Controllers\\FrontController@editTopic',
 ))
 ->where(array(
-    'forum' => '[a-z-]+',
-    'topic' => '[a-z-]+',
+    'forum' => '[0-9a-z-]+',
+    'topic' => '[0-9a-z-]+',
 ));
 
 Route::post('/{forum}/{topic}/edit', array(
@@ -52,8 +52,8 @@ Route::post('/{forum}/{topic}/edit', array(
     'uses' => '\\ScubaClick\\Forums\\Controllers\\FrontController@editTopicAction',
 ))
 ->where(array(
-    'forum' => '[a-z-]+',
-    'topic' => '[a-z-]+',
+    'forum' => '[0-9a-z-]+',
+    'topic' => '[0-9a-z-]+',
 ));
 
 Route::delete('/{forum}/{topic}/delete', array(
@@ -61,8 +61,8 @@ Route::delete('/{forum}/{topic}/delete', array(
     'uses' => '\\ScubaClick\\Forums\\Controllers\\FrontController@deleteTopic',
 ))
 ->where(array(
-    'forum' => '[a-z-]+',
-    'topic' => '[a-z-]+',
+    'forum' => '[0-9a-z-]+',
+    'topic' => '[0-9a-z-]+',
 ));
 
 Route::post('/{forum}/{topic}/resolve', array(
@@ -70,8 +70,8 @@ Route::post('/{forum}/{topic}/resolve', array(
     'uses' => '\\ScubaClick\\Forums\\Controllers\\FrontController@resolveTopic',
 ))
 ->where(array(
-    'forum' => '[a-z-]+',
-    'topic' => '[a-z-]+',
+    'forum' => '[0-9a-z-]+',
+    'topic' => '[0-9a-z-]+',
 ));
 
 Route::post('/{forum}/{topic}/reopen', array(
@@ -79,8 +79,8 @@ Route::post('/{forum}/{topic}/reopen', array(
     'uses' => '\\ScubaClick\\Forums\\Controllers\\FrontController@reopenTopic',
 ))
 ->where(array(
-    'forum' => '[a-z-]+',
-    'topic' => '[a-z-]+',
+    'forum' => '[0-9a-z-]+',
+    'topic' => '[0-9a-z-]+',
 ));
 
 Route::post('/{forum}/{topic}', array(
@@ -88,8 +88,8 @@ Route::post('/{forum}/{topic}', array(
     'uses' => '\\ScubaClick\\Forums\\Controllers\\FrontController@postReply',
 ))
 ->where(array(
-    'forum' => '[a-z-]+',
-    'topic' => '[a-z-]+',
+    'forum' => '[0-9a-z-]+',
+    'topic' => '[0-9a-z-]+',
 ));
 
 Route::get('/{forum}/{topic}/reply/{id}/edit', array(
@@ -97,8 +97,8 @@ Route::get('/{forum}/{topic}/reply/{id}/edit', array(
     'uses' => '\\ScubaClick\\Forums\\Controllers\\FrontController@editReply',
 ))
 ->where(array(
-    'forum' => '[a-z-]+',
-    'topic' => '[a-z-]+',
+    'forum' => '[0-9a-z-]+',
+    'topic' => '[0-9a-z-]+',
     'id'    => '[0-9]+',
 ));
 
@@ -107,8 +107,8 @@ Route::post('/{forum}/{topic}/reply/{id}/edit', array(
     'uses' => '\\ScubaClick\\Forums\\Controllers\\FrontController@editReplyAction',
 ))
 ->where(array(
-    'forum' => '[a-z-]+',
-    'topic' => '[a-z-]+',
+    'forum' => '[0-9a-z-]+',
+    'topic' => '[0-9a-z-]+',
     'id'    => '[0-9]+',
 ));
 
@@ -117,8 +117,8 @@ Route::delete('/{forum}/{topic}/reply/{id}/delete', array(
     'uses' => '\\ScubaClick\\Forums\\Controllers\\FrontController@deleteReply',
 ))
 ->where(array(
-    'forum' => '[a-z-]+',
-    'topic' => '[a-z-]+',
+    'forum' => '[0-9a-z-]+',
+    'topic' => '[0-9a-z-]+',
     'id'    => '[0-9]+',
 ));
 
@@ -127,7 +127,7 @@ Route::get('/{forum}/{feed}', array(
     'uses' => '\\ScubaClick\\Forums\\Controllers\\FrontController@topicsFeed',
 ))
 ->where(array(
-    'forum' => '[a-z-]+',
+    'forum' => '[0-9a-z-]+',
     'feed'  => 'rss.xml|atom.xml|feed.json'
 ));
 
@@ -135,13 +135,13 @@ Route::get('/{forum}', array(
     'as'   => $prefix .'forum.front.forum',
     'uses' => '\\ScubaClick\\Forums\\Controllers\\FrontController@topics',
 ))
-->where('forum', '[a-z-]+');
+->where('forum', '[0-9a-z-]+');
 
 Route::post('/{forum}', array(
     'as'   => $prefix .'forum.front.forum.topic',
     'uses' => '\\ScubaClick\\Forums\\Controllers\\FrontController@postTopic',
 ))
-->where('forum', '[a-z-]+');
+->where('forum', '[0-9a-z-]+');
 
 Route::get('/', array(
     'as'   => $prefix .'forum.front.index',
