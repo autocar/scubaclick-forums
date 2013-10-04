@@ -38,7 +38,7 @@ class Label extends Model
      */
 	public static $rules = array(
         'title' => 'required|min:3',
-        'slug'  => 'required|min:3|unique:labels,slug',
+        'slug'  => 'required|min:3|unique:labels,slug,{id}',
 	);
 
    /**

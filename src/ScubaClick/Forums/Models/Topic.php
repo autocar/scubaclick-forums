@@ -54,7 +54,7 @@ class Topic extends Model implements FeedInterface
         'status'   => 'required|in:open,resolved',
         'title'    => 'required|min:3',
         'content'  => 'required|min:8',
-        'slug'     => 'required|min:3',
+        'slug'     => 'required|min:3|unique:topics,slug,{id}',
         'ip'       => 'required|ip',
         'sticky'   => 'between:0,1',
 	);

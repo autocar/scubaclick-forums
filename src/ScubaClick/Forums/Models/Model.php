@@ -30,7 +30,7 @@ class Model extends Eloquent
      */
     public function validate()
     {
-        $validator = Validator::make($this->attributes, static::$rules);
+        $validator = Validator::make($this->attributes, $this->getRules());
 
         if ($validator->passes()) {
             return true;
@@ -39,6 +39,26 @@ class Model extends Eloquent
         $this->setErrors($validator->messages());
 
         return false;
+    }
+
+    /**
+     * Set error message bag
+     * 
+     * @return array
+     */
+    protected function getRules()
+    {
+        $rules = static::$rules;
+
+        if($this->exists) {
+            return array_map(function($rule) {
+                return str_replace('{id}', $this->id, $rule);
+            }, $rules);
+        } else {
+            return array_map(function($rule) {
+                return str_replace(',{id}', '', $rule);
+            }, $rules);
+        }
     }
 
     /**

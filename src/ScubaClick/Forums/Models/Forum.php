@@ -43,7 +43,7 @@ class Forum extends Model
         'user_id' => 'required|exists:users,id',
         'title'   => 'required|min:3',
         'content' => 'required|min:8',
-        'slug'    => 'required|min:3',
+        'slug'    => 'required|min:3|unique:forums,slug,{id}',
         'status'  => 'required|in:open,closed'
 	);
 
