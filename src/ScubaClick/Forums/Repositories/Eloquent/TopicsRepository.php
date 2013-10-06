@@ -15,6 +15,7 @@ class TopicsRepository implements TopicsInterface
 	public function get()
 	{
         return Topic::with('replies','labels')
+            ->orderBy('updated_at', 'desc')
             ->paginate(Config::get('forums::per_page'));
 	}
 
@@ -24,6 +25,7 @@ class TopicsRepository implements TopicsInterface
     public function search($term)
     {
         return Topic::search($term)
+            ->orderBy('updated_at', 'desc')
             ->paginate(Config::get('forums::per_page'));
     }
 
@@ -33,6 +35,7 @@ class TopicsRepository implements TopicsInterface
     public function getForForum($forum)
     {
         return $forum->topics()
+            ->orderBy('updated_at', 'desc')
             ->paginate(Config::get('forums::per_page'));
     }
 
