@@ -7,6 +7,7 @@ use Auth;
 use Input;
 use Config;
 use Request;
+use DateTime;
 use Purifier;
 use Paginator;
 use Illuminate\Support\Str;
@@ -41,6 +42,7 @@ class Topic extends Model implements FeedInterface
     	'title',
     	'content',
         'sticky',
+        'edited_at',
     );
 
     /**
@@ -77,6 +79,11 @@ class Topic extends Model implements FeedInterface
             }
 
             return $model->validate();
+        });
+
+        static::updating(function($model)
+        {
+            $model->edited_at = new DateTime;
         });
     }
 
@@ -378,7 +385,7 @@ class Topic extends Model implements FeedInterface
     /**
      * Get the freshness of the topic
      *
-     * @return int
+     * @return View
      */
     public function getFreshness()
     {
@@ -400,7 +407,26 @@ class Topic extends Model implements FeedInterface
      */
     public function wasEdited()
     {
-        return $this->updated_at->gt($this->created_at);
+        if(is_null($this->edited_at)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Get all date columns
+     *
+     * @return boolean
+     */
+    public function getDates()
+    {
+        return array(
+            'created_at',
+            'updated_at',
+            'deleted_at',
+            'edited_at',
+        );
     }
 
     /**

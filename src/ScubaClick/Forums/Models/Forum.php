@@ -148,6 +148,7 @@ class Forum extends Model
     /**
      * Get the latest topic
      *
+     * @todo Need to check replies as well
      * @return ScubaClick\Forums\Models\Topic
      */
     public function getLatestTopic()
@@ -181,6 +182,14 @@ class Forum extends Model
     public function getFreshness()
     {
         $post = $this->getLatestTopic();
+
+        if(!is_null($post)) {
+            $reply = $post->replies()
+                ->orderBy('updated_at', 'desc')
+                ->first();
+
+            $post = !is_null($reply) ? $reply : $post;
+        }
 
         return View::make('forums::front._partials.freshness', compact(
             'post'
