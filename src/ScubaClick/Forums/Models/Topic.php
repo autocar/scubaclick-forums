@@ -25,6 +25,13 @@ class Topic extends Model implements FeedInterface
     protected $table = 'topics';
 
     /**
+     * Automatically update the parent forum
+     *
+     * @var array
+     */
+    protected $touches = array('forum');
+
+    /**
      * Enables model trashing/restoring
      *
      * @var bool

@@ -17,6 +17,13 @@ class Reply extends Model implements FeedInterface
     protected $table = 'replies';
 
     /**
+     * Automatically update the parent forum
+     *
+     * @var array
+     */
+    protected $touches = array('topic');
+
+    /**
      * Enables model trashing/restoring
      *
      * @var bool
