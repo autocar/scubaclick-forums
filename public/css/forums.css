@@ -6,7 +6,9 @@
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
-.forums *, .forums:before *, .forums:after * {
+.forums *,
+.forums *:before,
+.forums *:after {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -161,7 +163,9 @@
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
-.forum-form *, .forum-form:before *, .forum-form:after * {
+.forum-form *,
+.forum-form *:before,
+.forum-form *:after {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -173,4 +177,21 @@
   background: transparent;
   border: none;
   width: 90%;
+}
+
+#forum-search {
+  position: absolute;
+  top: -60px;
+  right: 0;
+}
+#forum-search *,
+#forum-search *:before,
+#forum-search *:after {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+#forum-search input[type="text"] {
+  padding: 4px 14px;
+  height: 30px;
 }

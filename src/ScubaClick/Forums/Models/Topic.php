@@ -150,9 +150,12 @@ class Topic extends Model implements FeedInterface
         return $query->distinct()
             ->select('topics.*')
             ->join('replies', 'topics.id', '=', 'replies.topic_id')
-            ->where('topics.content', 'like', "%$search%")
-            ->where('topics.title', 'like', "%$search%")
-            ->orWhere('replies.content', 'like', "%$search%");
+            ->where(function($query) use ($search) {
+                $query->where('topics.content', 'like', "%$search%")
+                    ->orWhere('topics.title', 'like', "%$search%")
+                    ->orWhere('replies.content', 'like', "%$search%");
+            })
+            ->orderBy('created_at', 'desc');
     }
 
     /**

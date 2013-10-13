@@ -6,9 +6,9 @@
 	list-style:none;
 	@include box-sizing(border-box);
 
-	& *,
-	&:before *,
-	&:after * {
+	*,
+	*:before,
+	*:after {
 		@include box-sizing(border-box);
 	}
 
@@ -186,9 +186,9 @@
 	margin-top:30px;
 	@include box-sizing(border-box);
 
-	& *,
-	&:before *,
-	&:after * {
+	*,
+	*:before,
+	*:after {
 		@include box-sizing(border-box);
 	}
 
@@ -200,5 +200,21 @@
 		background:transparent;
 		border:none;
 		width:90%;
+	}
+}
+#forum-search {
+	*,
+	*:before,
+	*:after {
+		@include box-sizing(border-box);
+	}
+
+	position:absolute;
+	top: -60px;
+	right:0;
+
+	input[type="text"] {
+		padding:4px 14px;
+		height:30px;
 	}
 }
