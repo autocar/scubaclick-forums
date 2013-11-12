@@ -446,7 +446,7 @@ class Topic extends Model implements FeedInterface
     {
         return array(
             'title'       => $this->title,
-            'author'      => $this->user->getFullName(),
+            'author'      => $this->user->full_name,
             'link'        => $this->getLink(),
             'pubDate'     => $this->created_at,
             'description' => $this->content,

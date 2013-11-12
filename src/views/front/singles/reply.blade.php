@@ -1,7 +1,7 @@
 <div id="reply-{{{ $reply->id }}}" class="forum-reply">
 	<ul class="forum-reply-header forum-lego">
 		<li class="forum-reply-author">
-			{{{ $reply->user->getFullName() }}}
+			{{{ $reply->user->full_name }}}
 		</li>
 		<li class="forum-reply-content">
 			<span class="forum-reply-date">

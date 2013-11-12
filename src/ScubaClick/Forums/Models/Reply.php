@@ -186,7 +186,7 @@ class Reply extends Model implements FeedInterface
     {
         return array(
             'title'       => $this->getTitle(),
-            'author'      => $this->user->getFullName(),
+            'author'      => $this->user->full_name,
             'link'        => $this->getLink(),
             'pubDate'     => $this->created_at,
             'description' => $this->content,

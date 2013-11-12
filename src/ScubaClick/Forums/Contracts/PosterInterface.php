@@ -7,7 +7,7 @@ interface PosterInterface
      *
      * @return string
      */
-	public function getFullName();
+	public function getFullNameAttribute();
 
     /**
      * Get the posters avatar

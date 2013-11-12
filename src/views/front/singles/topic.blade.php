@@ -12,7 +12,7 @@
 		@include('forums::front._partials.pagination')
 
 		<div class="forum-meta">
-			<p>by {{{ $topic->user->getFullName() }}}</p>
+			<p>by {{{ $topic->user->full_name }}}</p>
 		</div>
 	</li>
 	<li class="forum-topic-voice-count">

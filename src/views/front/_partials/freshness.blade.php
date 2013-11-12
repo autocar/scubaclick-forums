@@ -5,6 +5,6 @@
 		<a href="{{{ $post->getLink() }}}" title="Created on {{{ $post->created_at }}}">
 			{{{ $post->updated_at->diffForHumans() }}}
 		</a><br />
-		<span class="forum-latest-poster">by {{{ $post->user->getFullName() }}}</span>
+		<span class="forum-latest-poster">by {{{ $post->user->full_name }}}</span>
 	</p>
 @endif

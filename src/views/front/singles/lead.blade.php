@@ -2,7 +2,7 @@
 <div class="forum-lead">
 	<ul class="forum-reply-header forum-lego">
 		<li class="forum-reply-author">
-			{{{ $topic->user->getFullName() }}}
+			{{{ $topic->user->full_name }}}
 		</li>
 		<li class="forum-reply-content">
 			<span class="forum-reply-date">
