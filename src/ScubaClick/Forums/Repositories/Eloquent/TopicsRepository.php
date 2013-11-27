@@ -25,7 +25,6 @@ class TopicsRepository implements TopicsInterface
     public function search($term)
     {
         return Topic::search($term)
-            ->orderBy('updated_at', 'desc')
             ->paginate(Config::get('forums::per_page'));
     }
 
