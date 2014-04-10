@@ -6,6 +6,7 @@ use Input;
 use Config;
 use Request;
 use Redirect;
+use JavaScript;
 use BaseController;
 use ScubaClick\Forums\Contracts\TopicsInterface;
 use ScubaClick\Forums\Contracts\ForumsInterface;
@@ -83,12 +84,14 @@ class FrontController extends BaseController
         $topics = $this->topics->getForForum($forum);
 
         $labels    = '';
-        $allLabels = $this->labels->toJson();
+
+        JavaScript::put([
+            'tags' => $this->labels->toArray()
+        ]);
 
         $this->layout->content = View::make(Config::get('forums::templates.topics'), compact(
             'topics',
             'labels',
-            'allLabels',
             'forum'
         ));
     }
@@ -96,7 +99,7 @@ class FrontController extends BaseController
     /**
      * Post a new topic to a forum
      *
-     * @param  string $forumSlug 
+     * @param  string $forumSlug
      * @return Redirect
      */
     public function postTopic($forumSlug)
@@ -104,7 +107,7 @@ class FrontController extends BaseController
         $forum  = $this->forums->findBySlug($forumSlug);
 
         $input = Input::all();
-        
+
         if(!Input::has('status')) {
             $input['status'] = 'open';
         }
@@ -127,7 +130,7 @@ class FrontController extends BaseController
     /**
      * Display a feed of topics
      *
-     * @param  string $forumSlug 
+     * @param  string $forumSlug
      * @param  string $feed
      * @return Response
      */
@@ -149,7 +152,7 @@ class FrontController extends BaseController
     /**
      * Display a listing of replies for a single topic
      *
-     * @param  string $forumSlug 
+     * @param  string $forumSlug
      * @param  string $topicSlug
      * @return void
      */
@@ -167,7 +170,7 @@ class FrontController extends BaseController
     /**
      * Post a new reply to a topic
      *
-     * @param  string $forumSlug 
+     * @param  string $forumSlug
      * @param  string $topicSlug
      * @return Redirect
      */
@@ -216,26 +219,28 @@ class FrontController extends BaseController
     /**
      * Show the form to edit a topic
      *
-     * @param  string $forumSlug 
+     * @param  string $forumSlug
      * @param  string $topicSlug
      */
     public function editTopic($forumSlug, $topicSlug)
     {
         $topic = $this->topics->findBySlug($topicSlug, $forumSlug);
         $labels    = implode(',', $topic->labels()->lists('title'));
-        $allLabels = $this->labels->toJson();
+
+        JavaScript::put([
+            'tags' => $this->labels->toArray()
+        ]);
 
         $this->layout->content = View::make(Config::get('forums::templates.edit_topic'), compact(
             'topic',
-            'labels',
-            'allLabels'
+            'labels'
         ));
     }
 
     /**
      * Show the edit reply form
      *
-     * @param  string $forumSlug 
+     * @param  string $forumSlug
      * @param  string $topicSlug
      * @param  int $replyId
      */
@@ -290,7 +295,7 @@ class FrontController extends BaseController
     /**
      * Edit a topic
      *
-     * @param  string $forumSlug 
+     * @param  string $forumSlug
      * @param  string $topicSlug
      * @return Redirect
      */
@@ -317,7 +322,7 @@ class FrontController extends BaseController
     /**
      * Resolve a topic
      *
-     * @param  string $forumSlug 
+     * @param  string $forumSlug
      * @param  string $topicSlug
      * @return Redirect
      */
@@ -343,7 +348,7 @@ class FrontController extends BaseController
     /**
      * Reopen a topic
      *
-     * @param  string $forumSlug 
+     * @param  string $forumSlug
      * @param  string $topicSlug
      * @return Redirect
      */
@@ -369,7 +374,7 @@ class FrontController extends BaseController
     /**
      * Delete a topic
      *
-     * @param  string $forumSlug 
+     * @param  string $forumSlug
      * @param  string $topicSlug
      * @return Redirect
      */
@@ -397,7 +402,7 @@ class FrontController extends BaseController
     /**
      * Edit a reply
      *
-     * @param  string $forumSlug 
+     * @param  string $forumSlug
      * @param  string $topicSlug
      * @param  int $replyId
      */
@@ -423,7 +428,7 @@ class FrontController extends BaseController
     /**
      * Delete a reply
      *
-     * @param  string $forumSlug 
+     * @param  string $forumSlug
      * @param  string $topicSlug
      * @param  int $replyId
      */

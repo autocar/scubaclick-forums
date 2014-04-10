@@ -12,7 +12,8 @@ if (!function_exists('load_forum_routes'))
 	 */
 	function load_forum_routes($prefix = '')
 	{
-		if(! empty($prefix)) {
+		if(! empty($prefix))
+		{
 			$prefix = $prefix .'.';
 		}
 
@@ -31,7 +32,8 @@ if (!function_exists('get_route_prefix'))
 	{
 	    $chunks = explode('.', parse_url(Request::root(), PHP_URL_HOST));
 
-	    if(count($chunks) == 3 && $chunks[0] != 'www') {
+	    if(count($chunks) == 3 && $chunks[0] != 'www')
+	    {
 	        return $chunks[0] .'.';
 	    }
 

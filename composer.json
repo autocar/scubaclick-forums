@@ -16,7 +16,8 @@
         "illuminate/database": "4.1.*",
         "mews/purifier": "dev-master",
         "scubaclick/feeder": "dev-develop",
-        "nesbot/carbon": "1.*"
+        "nesbot/carbon": "1.*",
+        "laracasts/utilities": "1.*"
     },
     "autoload": {
         "classmap": [
